@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ASR.Models;
+using System.Globalization;
 
 namespace ASR
 {
@@ -39,7 +40,7 @@ namespace ASR
                     options.Password.RequireUppercase = options.Password.RequireLowercase = false;
             }).AddEntityFrameworkStores<AsrContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddMvcLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +59,7 @@ namespace ASR
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseCookiePolicy();
-
+           
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASR.Data;
 using ASR.Models;
-using System.Globalization;
 
 namespace ASR.Controllers
 {
@@ -28,9 +26,9 @@ namespace ASR.Controllers
         }
 
         // GET: Slots/Details/5
-        public async Task<IActionResult> Details(string roomId, DateTime startTime)
+        public async Task<IActionResult> Details(string slotID)
         {
-            if (roomId == null)
+            if (slotID == null)
             {
                 return NotFound();
             }
@@ -39,7 +37,7 @@ namespace ASR.Controllers
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .FirstOrDefaultAsync(m => m.RoomID == roomId && m.StartTime == startTime);
+                .FirstOrDefaultAsync(m => m.SlotID.ToString() == slotID);
             if (slot == null)
             {
                 return NotFound();
@@ -77,14 +75,14 @@ namespace ASR.Controllers
         }
 
         // GET: Slots/Edit/5
-        public async Task<IActionResult> Edit(string roomID, DateTime startTime)
+        public async Task<IActionResult> Edit(string slotID)
         {
-            if (roomID == null)
+            if (slotID == null)
             {
                 return NotFound();
             }
 
-            var slot = await _context.Slot.FindAsync(roomID, startTime);
+            var slot = await _context.Slot.FindAsync(Int32.Parse(slotID));
             if (slot == null)
             {
                 return NotFound();
@@ -100,9 +98,9 @@ namespace ASR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string roomID, DateTime startTime, [Bind("RoomID,StartTime,StaffID,StudentID")] Slot slot)
+        public async Task<IActionResult> Edit(string slotID, [Bind("SlotID,RoomID,StartTime,StaffID,StudentID")] Slot slot)
         {
-            if (roomID != slot.RoomID)
+            if (slotID != slot.SlotID.ToString())
             {
                 return NotFound();
             }
@@ -116,7 +114,7 @@ namespace ASR.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SlotExists(slot.RoomID, slot.StartTime))
+                    if (!SlotExists(slot.SlotID.ToString()))
                     {
                         return NotFound();
                     }
@@ -134,15 +132,14 @@ namespace ASR.Controllers
         }
 
         // GET: Slots/Delete/5
-        public async Task<IActionResult> Delete(string roomId, DateTime startTime)
+        public async Task<IActionResult> Delete(string slotID)
         {
-            if (roomId == null)
+            if (slotID == null)
             {
                 return NotFound();
             }
 
-            var slot = await _context.Slot
-                .FirstOrDefaultAsync(m => m.RoomID == roomId && m.StartTime == startTime);
+            var slot = await _context.Slot.FirstOrDefaultAsync(m => m.SlotID.ToString() == slotID);
             if (slot == null)
             {
                 return NotFound();
@@ -154,11 +151,11 @@ namespace ASR.Controllers
         // POST: Slots/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string roomId, DateTime startTime)
+        public async Task<IActionResult> DeleteConfirmed(string slotID)
         {            
-            if (SlotExists(roomId, startTime))
+            if (SlotExists(slotID))
             {
-                var slot = await _context.Slot.FindAsync(roomId, startTime);
+                var slot = await _context.Slot.FindAsync(Int32.Parse(slotID));
                 _context.Slot.Remove(slot);
                 await _context.SaveChangesAsync();
             }
@@ -170,9 +167,9 @@ namespace ASR.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SlotExists(string roomId, DateTime startTime)
+        private bool SlotExists(string slotID)
         {
-            return _context.Slot.Any(e => e.RoomID == roomId && e.StartTime == startTime);
+            return _context.Slot.Any(e => e.SlotID.ToString() == slotID);
         }
     }
 }

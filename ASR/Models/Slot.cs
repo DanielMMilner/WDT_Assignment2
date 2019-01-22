@@ -6,6 +6,9 @@ namespace ASR.Models
 {
     public class Slot
     {
+        [Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SlotID { get; set; }
+
         [Required]
         public string RoomID { get; set; }
         public virtual Room Room { get; set; }

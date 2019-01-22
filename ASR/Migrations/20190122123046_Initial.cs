@@ -123,6 +123,8 @@ namespace ASR.Migrations
                 name: "Slot",
                 columns: table => new
                 {
+                    SlotID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RoomID = table.Column<string>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     StaffID = table.Column<string>(nullable: false),
@@ -130,7 +132,7 @@ namespace ASR.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Slot", x => new { x.RoomID, x.StartTime });
+                    table.PrimaryKey("PK_Slot", x => x.SlotID);
                     table.ForeignKey(
                         name: "FK_Slot_Room_RoomID",
                         column: x => x.RoomID,
@@ -284,6 +286,11 @@ namespace ASR.Migrations
                 name: "IX_AspNetUsers_StudentID",
                 table: "AspNetUsers",
                 column: "StudentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Slot_RoomID",
+                table: "Slot",
+                column: "RoomID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Slot_StaffID",

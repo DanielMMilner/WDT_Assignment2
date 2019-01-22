@@ -89,16 +89,23 @@ namespace ASR.Migrations
 
             modelBuilder.Entity("ASR.Models.Slot", b =>
                 {
-                    b.Property<string>("RoomID");
+                    b.Property<int>("SlotID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("StartTime");
+                    b.Property<string>("RoomID")
+                        .IsRequired();
 
                     b.Property<string>("StaffID")
                         .IsRequired();
 
+                    b.Property<DateTime>("StartTime");
+
                     b.Property<string>("StudentID");
 
-                    b.HasKey("RoomID", "StartTime");
+                    b.HasKey("SlotID");
+
+                    b.HasIndex("RoomID");
 
                     b.HasIndex("StaffID");
 

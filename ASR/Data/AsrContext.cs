@@ -17,8 +17,6 @@ namespace ASR.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Slot>().HasKey(x => new { x.RoomID, x.StartTime });
         }
     }
 }
