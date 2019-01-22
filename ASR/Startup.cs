@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using ASR.Models;
 
 namespace ASR
 {
@@ -31,6 +32,13 @@ namespace ASR
             services.AddDbContext<AsrContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString(nameof(AsrContext))));
 
+            services.AddDefaultIdentity<AppUser>(options =>
+            {
+                options.Password.RequiredLength = 3;
+                options.Password.RequireDigit = options.Password.RequireNonAlphanumeric =
+                    options.Password.RequireUppercase = options.Password.RequireLowercase = false;
+            }).AddEntityFrameworkStores<AsrContext>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -49,7 +57,7 @@ namespace ASR
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {
