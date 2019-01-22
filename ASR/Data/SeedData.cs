@@ -23,6 +23,7 @@ namespace Asr.Data
         private static void InitialiseUsers(UserManager<AppUser> userManager)
         {
             // Look for any users.
+
             if (userManager.Users.Any())
                 return; // DB has been seeded.
 
@@ -53,7 +54,7 @@ namespace Asr.Data
 
             CreateStudent(context, "s1234567", "Kevin");
             CreateStudent(context, "s4567890", "Olivier");
-
+                        
             context.Slot.AddRange(
                 new Slot
                 {
@@ -68,7 +69,7 @@ namespace Asr.Data
                     StaffID = "e56789",
                     StudentID = "s1234567"
                 }
-            );
+            );            
 
             context.SaveChanges();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASR.Models
 {
@@ -9,6 +10,7 @@ namespace ASR.Models
         public string RoomID { get; set; }
         public virtual Room Room { get; set; }
 
+        [Required]
         public DateTime StartTime { get; set; }
 
         [Required]

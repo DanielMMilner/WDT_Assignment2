@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASR.Data;
 using ASR.Models;
+using System.Globalization;
 
 namespace ASR.Controllers
 {
@@ -27,9 +28,9 @@ namespace ASR.Controllers
         }
 
         // GET: Slots/Details/5
-        public async Task<IActionResult> Details(string id, DateTime startTime)
+        public async Task<IActionResult> Details(string roomId, DateTime startTime)
         {
-            if (id == null)
+            if (roomId == null)
             {
                 return NotFound();
             }
@@ -38,7 +39,7 @@ namespace ASR.Controllers
                 .Include(s => s.Room)
                 .Include(s => s.Staff)
                 .Include(s => s.Student)
-                .FirstOrDefaultAsync(m => m.RoomID == id && m.StartTime == startTime);
+                .FirstOrDefaultAsync(m => m.RoomID == roomId && m.StartTime == startTime);
             if (slot == null)
             {
                 return NotFound();
@@ -76,14 +77,14 @@ namespace ASR.Controllers
         }
 
         // GET: Slots/Edit/5
-        public async Task<IActionResult> Edit(string id, DateTime startTime)
+        public async Task<IActionResult> Edit(string roomID, DateTime startTime)
         {
-            if (id == null)
+            if (roomID == null)
             {
                 return NotFound();
             }
 
-            var slot = await _context.Slot.FindAsync(id, startTime);
+            var slot = await _context.Slot.FindAsync(roomID, startTime);
             if (slot == null)
             {
                 return NotFound();
@@ -99,9 +100,9 @@ namespace ASR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("RoomID,StartTime,StaffID,StudentID")] Slot slot)
+        public async Task<IActionResult> Edit(string roomID, DateTime startTime, [Bind("RoomID,StartTime,StaffID,StudentID")] Slot slot)
         {
-            if (id != slot.RoomID)
+            if (roomID != slot.RoomID)
             {
                 return NotFound();
             }
@@ -133,15 +134,15 @@ namespace ASR.Controllers
         }
 
         // GET: Slots/Delete/5
-        public async Task<IActionResult> Delete(string id, DateTime startTime)
+        public async Task<IActionResult> Delete(string roomId, DateTime startTime)
         {
-            if (id == null)
+            if (roomId == null)
             {
                 return NotFound();
             }
 
             var slot = await _context.Slot
-                .FirstOrDefaultAsync(m => m.RoomID == id && m.StartTime == startTime);
+                .FirstOrDefaultAsync(m => m.RoomID == roomId && m.StartTime == startTime);
             if (slot == null)
             {
                 return NotFound();
@@ -153,17 +154,25 @@ namespace ASR.Controllers
         // POST: Slots/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id, DateTime startTime)
-        {
-            var slot = await _context.Slot.FindAsync(id, startTime);
-            _context.Slot.Remove(slot);
-            await _context.SaveChangesAsync();
+        public async Task<IActionResult> DeleteConfirmed(string roomId, DateTime startTime)
+        {            
+            if (SlotExists(roomId, startTime))
+            {
+                var slot = await _context.Slot.FindAsync(roomId, startTime);
+                _context.Slot.Remove(slot);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                Console.WriteLine("Slot does not exist");
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SlotExists(string id, DateTime startTime)
+        private bool SlotExists(string roomId, DateTime startTime)
         {
-            return _context.Slot.Any(e => e.RoomID == id && e.StartTime == startTime);
+            return _context.Slot.Any(e => e.RoomID == roomId && e.StartTime == startTime);
         }
     }
 }

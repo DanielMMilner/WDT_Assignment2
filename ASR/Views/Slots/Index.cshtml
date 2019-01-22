@@ -16,6 +16,9 @@
                 @Html.DisplayNameFor(model => model.Room)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Staff)
             </th>
             <th>
@@ -31,15 +34,18 @@
                 @Html.DisplayFor(modelItem => item.Room.RoomID)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Staff.StaffID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Student.StudentID)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new {  id = item.Room.RoomID, startTime = item.StartTime }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Room.RoomID, startTime = item.StartTime }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Room.RoomID, startTime = item.StartTime })
+                @Html.ActionLink("Edit", "Edit", new { roomId = item.Room.RoomID, startTime = item.StartTime }) |
+                @Html.ActionLink("Details", "Details", new { roomId = item.Room.RoomID, startTime = item.StartTime }) |
+                @Html.ActionLink("Delete", "Delete", new { roomId = item.Room.RoomID, startTime = item.StartTime })
             </td>
         </tr>
 }
