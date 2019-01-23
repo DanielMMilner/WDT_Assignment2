@@ -63,13 +63,9 @@ namespace ASR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RoomID,StartTime,StaffID,StudentID")] Slot slot)
         {
-            //Find the primary key of the row which contains the school ID
-            var staffKey = _context.AppUser.FirstOrDefault(x => x.SchoolID == slot.StaffID);
-            var studentKey = _context.AppUser.FirstOrDefault(x => x.SchoolID == slot.StudentID);
-
-            //set the slot ID to the primary keys
-            slot.StaffID = staffKey.Id;
-            slot.StudentID = studentKey.Id;
+            //set the slot ID to the correct primary keys
+            slot.StaffID = FindPrimaryKeyFromSchoolID(slot, slot.StaffID);
+            slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
 
             if (ModelState.IsValid)
             {
@@ -98,8 +94,8 @@ namespace ASR.Controllers
                 return NotFound();
             }
             ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID", slot.RoomID);
-            ViewData["StaffID"] = new SelectList(_context.Slot, "StaffID", "StaffID", slot.StaffID);
-            ViewData["StudentID"] = new SelectList(_context.Slot, "StudentID", "StudentID", slot.StudentID);
+            ViewData["StaffID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('e')), "SchoolID", "SchoolID");
+            ViewData["StudentID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('s')), "SchoolID", "SchoolID");
             ViewData["StartTime"] = new SelectList(_context.Slot, "StartTime", "StartTime", slot.StartTime);
             return View(slot);
         }
@@ -115,6 +111,10 @@ namespace ASR.Controllers
             {
                 return NotFound();
             }
+
+            //set the slot ID to the correct primary keys
+            slot.StaffID = FindPrimaryKeyFromSchoolID(slot, slot.StaffID);
+            slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
 
             if (ModelState.IsValid)
             {
@@ -181,6 +181,14 @@ namespace ASR.Controllers
         private bool SlotExists(string slotID)
         {
             return _context.Slot.Any(e => e.SlotID.ToString() == slotID);
+        }
+
+        private string FindPrimaryKeyFromSchoolID(Slot slot, string schoolID)
+        {
+            //Find the primary key of the row which contains the school ID
+            var key = _context.AppUser.FirstOrDefault(x => x.SchoolID == schoolID);
+
+            return key.Id;
         }
     }
 }
