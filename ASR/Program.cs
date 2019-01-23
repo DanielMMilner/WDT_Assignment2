@@ -1,5 +1,4 @@
 ﻿using System;
-using Asr.Data;
 using ASR.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +21,6 @@ namespace ASR
                 try
                 {
                     services.GetRequiredService<AsrContext>().Database.Migrate();
-                    SeedData.Initialise(services);
                 }
                 catch (Exception e)
                 {
