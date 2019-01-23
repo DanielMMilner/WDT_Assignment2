@@ -39,7 +39,7 @@ namespace ASR
                 options.Password.RequiredLength = 3;
                 options.Password.RequireDigit = options.Password.RequireNonAlphanumeric =
                     options.Password.RequireUppercase = options.Password.RequireLowercase = false;
-            }).AddDefaultUI().AddEntityFrameworkStores<AsrContext>();
+            }).AddDefaultUI().AddEntityFrameworkStores<AsrContext>().AddDefaultTokenProviders();
 
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
