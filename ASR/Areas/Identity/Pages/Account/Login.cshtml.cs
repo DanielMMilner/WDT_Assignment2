@@ -39,6 +39,7 @@ namespace ASR.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [RegularExpression(@"^(e\d{5}@rmit.edu.au)|(s\d{7}@student.rmit.edu.au)$", ErrorMessage ="Invalid staff or student login format")]
             public string Email { get; set; }
 
             [Required]
