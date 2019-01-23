@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASR.Migrations
 {
     [DbContext(typeof(AsrContext))]
-    [Migration("20190122123046_Initial")]
-    partial class Initial
+    [Migration("20190123065739_update")]
+    partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -40,6 +40,9 @@ namespace ASR.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<string>("Name")
+                        .IsRequired();
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -52,11 +55,10 @@ namespace ASR.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("SchoolID")
+                        .IsRequired();
+
                     b.Property<string>("SecurityStamp");
-
-                    b.Property<string>("StaffID");
-
-                    b.Property<string>("StudentID");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -72,10 +74,6 @@ namespace ASR.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("StaffID");
-
-                    b.HasIndex("StudentID");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -114,36 +112,6 @@ namespace ASR.Migrations
                     b.HasIndex("StudentID");
 
                     b.ToTable("Slot");
-                });
-
-            modelBuilder.Entity("ASR.Models.Staff", b =>
-                {
-                    b.Property<string>("StaffID");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("StaffID");
-
-                    b.ToTable("Staff");
-                });
-
-            modelBuilder.Entity("ASR.Models.Student", b =>
-                {
-                    b.Property<string>("StudentID");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("StudentID");
-
-                    b.ToTable("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -212,11 +180,9 @@ namespace ASR.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -247,28 +213,15 @@ namespace ASR.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("ASR.Models.AppUser", b =>
-                {
-                    b.HasOne("ASR.Models.Staff", "Staff")
-                        .WithMany()
-                        .HasForeignKey("StaffID");
-
-                    b.HasOne("ASR.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentID");
                 });
 
             modelBuilder.Entity("ASR.Models.Slot", b =>
@@ -278,12 +231,12 @@ namespace ASR.Migrations
                         .HasForeignKey("RoomID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ASR.Models.Staff", "Staff")
+                    b.HasOne("ASR.Models.AppUser", "Staff")
                         .WithMany()
                         .HasForeignKey("StaffID")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ASR.Models.Student", "Student")
+                    b.HasOne("ASR.Models.AppUser", "Student")
                         .WithMany()
                         .HasForeignKey("StudentID");
                 });

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASR.Data;
 using ASR.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace ASR.Controllers
 {
@@ -50,8 +51,8 @@ namespace ASR.Controllers
         public IActionResult Create()
         {
             ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID");
-            ViewData["StaffID"] = new SelectList(_context.Staff, "StaffID", "StaffID");
-            ViewData["StudentID"] = new SelectList(_context.Student, "StudentID", "StudentID");
+            ViewData["StaffID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('e')), "SchoolID", "SchoolID");
+            ViewData["StudentID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('s')), "SchoolID", "SchoolID");
             return View();
         }
 
@@ -62,6 +63,14 @@ namespace ASR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RoomID,StartTime,StaffID,StudentID")] Slot slot)
         {
+            //Find the primary key of the row which contains the school ID
+            var staffKey = _context.AppUser.FirstOrDefault(x => x.SchoolID == slot.StaffID);
+            var studentKey = _context.AppUser.FirstOrDefault(x => x.SchoolID == slot.StudentID);
+
+            //set the slot ID to the primary keys
+            slot.StaffID = staffKey.Id;
+            slot.StudentID = studentKey.Id;
+
             if (ModelState.IsValid)
             {
                 _context.Add(slot);
@@ -69,8 +78,9 @@ namespace ASR.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID", slot.RoomID);
-            ViewData["StaffID"] = new SelectList(_context.Staff, "StaffID", "StaffID", slot.StaffID);
-            ViewData["StudentID"] = new SelectList(_context.Student, "StudentID", "StudentID", slot.StudentID);
+            ViewData["StaffID"] = new SelectList(_context.AppUser, "StaffID", "StaffID", slot.StaffID);
+            ViewData["StudentID"] = new SelectList(_context.AppUser, "StudentID", "StudentID", slot.StudentID);
+
             return View(slot);
         }
 
@@ -88,8 +98,8 @@ namespace ASR.Controllers
                 return NotFound();
             }
             ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID", slot.RoomID);
-            ViewData["StaffID"] = new SelectList(_context.Staff, "StaffID", "StaffID", slot.StaffID);
-            ViewData["StudentID"] = new SelectList(_context.Student, "StudentID", "StudentID", slot.StudentID);
+            ViewData["StaffID"] = new SelectList(_context.Slot, "StaffID", "StaffID", slot.StaffID);
+            ViewData["StudentID"] = new SelectList(_context.Slot, "StudentID", "StudentID", slot.StudentID);
             ViewData["StartTime"] = new SelectList(_context.Slot, "StartTime", "StartTime", slot.StartTime);
             return View(slot);
         }
@@ -127,8 +137,8 @@ namespace ASR.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID", slot.RoomID);
-            ViewData["StaffID"] = new SelectList(_context.Staff, "StaffID", "StaffID", slot.StaffID);
-            ViewData["StudentID"] = new SelectList(_context.Student, "StudentID", "StudentID", slot.StudentID);
+            ViewData["StaffID"] = new SelectList(_context.Slot, "StaffID", "StaffID", slot.StaffID);
+            ViewData["StudentID"] = new SelectList(_context.Slot, "StudentID", "StudentID", slot.StudentID);
             return View(slot);
         }
 

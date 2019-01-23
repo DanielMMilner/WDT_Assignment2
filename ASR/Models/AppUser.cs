@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ASR.Models
 {
     public class AppUser : IdentityUser
     {
-        public string StaffID { get; set; }
-        public virtual Staff Staff { get; set; }
+        [Required, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string SchoolID { get; set; }
 
-        public string StudentID { get; set; }
-        public virtual Student Student { get; set; }
+        [Required]
+        public string Name { get; set; }
     }
 }

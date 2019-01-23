@@ -18,9 +18,9 @@ namespace ASR.Models
 
         [Required]
         public string StaffID { get; set; }
-        public virtual Staff Staff { get; set; }
+        public virtual AppUser Staff { get; set; }
 
         public string StudentID { get; set; }
-        public virtual Student Student { get; set; }
+        public virtual AppUser Student { get; set; }
     }
 }
