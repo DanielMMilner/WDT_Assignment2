@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASR.Data;
 using ASR.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASR.Controllers
 {
+    [Authorize(Roles = Constants.Staff)]
     public class SlotsController : Controller
     {
         private readonly AsrContext _context;

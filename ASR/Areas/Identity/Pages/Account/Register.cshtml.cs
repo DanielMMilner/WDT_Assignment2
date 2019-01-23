@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using ASR.Data;
 
 namespace ASR.Areas.Identity.Pages.Account
 {
@@ -78,6 +79,18 @@ namespace ASR.Areas.Identity.Pages.Account
             {
                 var user = new AppUser { UserName = Input.Email, Email = Input.Email, SchoolID = Input.SchoolID, Name = Input.Name };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                if (Input.SchoolID.StartsWith('e'))
+                {
+                    if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
+                        await _userManager.AddToRoleAsync(user, Constants.Staff);
+                }
+                else
+                {
+                    if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Student))
+                        await _userManager.AddToRoleAsync(user, Constants.Student);
+                }
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -92,9 +105,7 @@ namespace ASR.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    
+                    await _signInManager.SignInAsync(user, isPersistent: false);                    
                    
                     return LocalRedirect(returnUrl);
                 }
