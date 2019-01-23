@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ASR.Models;
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ASR
 {
@@ -33,12 +34,18 @@ namespace ASR
             services.AddDbContext<AsrContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString(nameof(AsrContext))));
 
-            services.AddDefaultIdentity<AppUser>(options =>
+            services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 3;
                 options.Password.RequireDigit = options.Password.RequireNonAlphanumeric =
                     options.Password.RequireUppercase = options.Password.RequireLowercase = false;
-            }).AddEntityFrameworkStores<AsrContext>();
+            }).AddDefaultUI().AddEntityFrameworkStores<AsrContext>();
+
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddMvcLocalization();
         }
