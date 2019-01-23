@@ -53,6 +53,7 @@ namespace ASR.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "SchoolID")]
+            [Key]
             public string SchoolID { get; set; }
         }
 
@@ -125,32 +126,40 @@ namespace ASR.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new AppUser { UserName = Input.Email, Email = Input.Email, SchoolID = Input.SchoolID, Name = Input.Name };
-                var result = await _userManager.CreateAsync(user);
 
-                if (Input.SchoolID.StartsWith('e'))
+                try
                 {
-                    if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
-                        await _userManager.AddToRoleAsync(user, Constants.Staff);
-                }
-                else
-                {
-                    if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Student))
-                        await _userManager.AddToRoleAsync(user, Constants.Student);
-                }
+                    var result = await _userManager.CreateAsync(user);
 
-                if (result.Succeeded)
-                {
-                    result = await _userManager.AddLoginAsync(user, info);
+                    if (Input.SchoolID.StartsWith('e'))
+                    {
+                        if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
+                            await _userManager.AddToRoleAsync(user, Constants.Staff);
+                    }
+                    else
+                    {
+                        if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Student))
+                            await _userManager.AddToRoleAsync(user, Constants.Student);
+                    }
+
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        return LocalRedirect(returnUrl);
+                        result = await _userManager.AddLoginAsync(user, info);
+                        if (result.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                            return LocalRedirect(returnUrl);
+                        }
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-                foreach (var error in result.Errors)
+                catch
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, $"The SchoolID '{Input.SchoolID}' is already in use");
                 }
             }
 

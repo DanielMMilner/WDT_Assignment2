@@ -6,7 +6,7 @@ namespace ASR.Models
 {
     public class AppUser : IdentityUser
     {
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key, Required, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string SchoolID { get; set; }
 
         [Required]

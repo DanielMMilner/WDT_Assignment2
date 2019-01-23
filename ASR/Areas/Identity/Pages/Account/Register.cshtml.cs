@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -62,7 +60,7 @@ namespace ASR.Areas.Identity.Pages.Account
             [Display(Name = "Name")]
             public string Name { get; set; }
 
-            [Required]
+            [Key, Required]
             [Display(Name = "SchoolID")]
             public string SchoolID { get; set; }
         }
@@ -78,40 +76,47 @@ namespace ASR.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new AppUser { UserName = Input.Email, Email = Input.Email, SchoolID = Input.SchoolID, Name = Input.Name };
-                var result = await _userManager.CreateAsync(user, Input.Password);
-
-                if (Input.SchoolID.StartsWith('e'))
+                try
                 {
-                    if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
-                        await _userManager.AddToRoleAsync(user, Constants.Staff);
+                    var result = await _userManager.CreateAsync(user, Input.Password);
+
+                    if (Input.SchoolID.StartsWith('e'))
+                    {
+                        if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
+                            await _userManager.AddToRoleAsync(user, Constants.Staff);
+                    }
+                    else
+                    {
+                        if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Student))
+                            await _userManager.AddToRoleAsync(user, Constants.Student);
+                    }
+
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { userId = user.Id, code = code },
+                            protocol: Request.Scheme);
+
+                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+
+                        return LocalRedirect(returnUrl);
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
-                else
+                catch
                 {
-                    if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Student))
-                        await _userManager.AddToRoleAsync(user, Constants.Student);
-                }
-
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);                    
-                   
-                    return LocalRedirect(returnUrl);
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    ModelState.AddModelError(string.Empty, $"The SchoolID '{Input.SchoolID}' is already in use");
                 }
             }
 
