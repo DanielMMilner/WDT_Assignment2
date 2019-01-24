@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ASR.Models.Slot>
+
+@{
+    ViewData["Title"] = "Availability";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Availability</h2>
+<h4>This room has the following bookings on @ViewBag.Date:</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Room)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Staff)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Room.RoomID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Staff.SchoolID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.SchoolID)
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>
+                    <p>This room has no bookings on this day</p>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

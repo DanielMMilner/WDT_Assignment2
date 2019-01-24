@@ -227,7 +227,7 @@ namespace ASR.Migrations
             modelBuilder.Entity("ASR.Models.Slot", b =>
                 {
                     b.HasOne("ASR.Models.Room", "Room")
-                        .WithMany()
+                        .WithMany("Slots")
                         .HasForeignKey("RoomID")
                         .OnDelete(DeleteBehavior.Cascade);
 
