@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using ASR.Data;
 using ASR.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace ASR.Controllers
 {
@@ -14,10 +15,12 @@ namespace ASR.Controllers
     public class SlotsController : Controller
     {
         private readonly AsrContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public SlotsController(AsrContext context)
+        public SlotsController(AsrContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Slots
@@ -46,6 +49,15 @@ namespace ASR.Controllers
             }
 
             return View(slot);
+        }
+
+        public async Task<IActionResult> Schedule()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var slots = _context.Slot.Where(x => x.StaffID == user.Id);
+
+            return View(slots.ToList());
         }
 
         // GET: Slots/Create
