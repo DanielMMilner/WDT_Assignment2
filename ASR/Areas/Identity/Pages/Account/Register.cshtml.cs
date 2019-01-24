@@ -62,6 +62,7 @@ namespace ASR.Areas.Identity.Pages.Account
 
             [Key, Required]
             [Display(Name = "SchoolID")]
+            [RegularExpression(@"^(e\d{5})|(s\d{7})$", ErrorMessage = "Invalid staff or student login format")]
             public string SchoolID { get; set; }
         }
 

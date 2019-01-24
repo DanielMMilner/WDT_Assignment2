@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -45,15 +45,11 @@ namespace ASR.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
-            public string Email { get; set; }
-            
-            [Required]
-            [Display(Name = "Name")]
-            public string Name { get; set; }
+            public string Email { get; set; }            
 
-            [Required]
+            [Required, Key]
             [Display(Name = "SchoolID")]
-            [Key]
+            [RegularExpression(@"^(e\d{5})|(s\d{7})$", ErrorMessage = "Invalid staff or student login format")]
             public string SchoolID { get; set; }
         }
 
