@@ -11,12 +11,6 @@ namespace ASR.Data
 
         public DbSet<Room> Room { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
-        //public DbSet<AppUser> Student { get; set; }
         public DbSet<Slot> Slot { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }
