@@ -1,0 +1,99 @@
+﻿@model BookingViewModel
+
+@{
+    ViewData["Title"] = "Manage Bookings";
+}
+<h3>Manage Bookings</h3>
+@if (Model.MyBookings.Count(x => true) == 0)
+{
+    <h4>You have no bookings</h4>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Room ID
+                </th>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    Staff ID
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.MyBookings)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Room.RoomID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Staff.SchoolID)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Cancel Booking", "Cancel", new { slotID = item.SlotID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<h3>Make a booking</h3>
+<form>
+    <input type="date" class="form-control"  name="date" value="@Model.Date.Date.ToString("yyyy-MM-dd")">
+    <input type="submit" class="form-control" value="Search Bookings">
+</form>
+@if (Model.BookingsForDate.Count(x => true) == 0)
+{
+    <h4>There are no slots avaliable on this date</h4>
+}
+else
+{
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Room ID
+                </th>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    Staff ID
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.BookingsForDate)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Room.RoomID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Staff.SchoolID)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Book this slot", "Book", new { slotID = item.SlotID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

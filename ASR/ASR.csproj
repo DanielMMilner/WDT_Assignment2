@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Booking\Book.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Booking\MakeBooking.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Slots\Schedule.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

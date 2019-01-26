@@ -10,16 +10,18 @@ namespace ASR.Models
         public int SlotID { get; set; }
 
         [Required]
+        [Display(Name = "Room ID")]
         public string RoomID { get; set; }
         public virtual Room Room { get; set; }
 
         [Required]
+        [Display(Name = "Start Time")]
         public DateTime StartTime { get; set; }
 
         [Required]
         public string StaffID { get; set; }
         public virtual AppUser Staff { get; set; }
-
+        
         public string StudentID { get; set; }
         public virtual AppUser Student { get; set; }
     }
