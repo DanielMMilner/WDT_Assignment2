@@ -22,9 +22,9 @@ namespace ASR.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Faq()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Your guide to ASR.";
 
             return View();
         }
