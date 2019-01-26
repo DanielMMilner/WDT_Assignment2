@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ASR
 {
+    [Authorize(Roles = Constants.Student)]
     public class BookingController : Controller
     {
         private readonly AsrContext _context;
