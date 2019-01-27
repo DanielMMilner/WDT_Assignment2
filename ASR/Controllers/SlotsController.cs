@@ -78,7 +78,15 @@ namespace ASR.Controllers
         {
             //set the slot ID to the correct primary keys
             slot.StaffID = FindPrimaryKeyFromSchoolID(slot, slot.StaffID);
-            slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
+            if (slot.StudentID != null)
+            {
+                slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
+            }
+
+            if (!SlotCreationBusinessRules(slot))
+            {
+                return Create();
+            }
 
             if (ModelState.IsValid)
             {
@@ -91,6 +99,47 @@ namespace ASR.Controllers
             ViewData["StudentID"] = new SelectList(_context.AppUser, "StudentID", "StudentID", slot.StudentID);
 
             return View(slot);
+        }
+
+        private bool SlotCreationBusinessRules(Slot slot)
+        {
+            bool pass = true;
+            if (slot.StartTime.Minute != 0)
+            {
+                ModelState.AddModelError(string.Empty, "Bookings can only be made at the top of the hour. i.e 1:00pm, 2:00pm etc.");
+                pass = false;
+            }
+
+            if (slot.StartTime.Hour < 9 || slot.StartTime.Hour > 14)
+            {
+                ModelState.AddModelError(string.Empty, "Bookings can only be made during school hours 9am-2pm.");
+                pass = false;
+            }
+
+            if (slot.StartTime < DateTime.Now)
+            {
+                ModelState.AddModelError(string.Empty, "Bookings can not be made in the past.");
+                pass = false;
+            }
+
+            if (_context.Slot.Where(x => x.StaffID == slot.StaffID && x.StartTime.Date == slot.StartTime.Date).Count() >= 4)
+            {
+                ModelState.AddModelError(string.Empty, "This staff member already has the maximum number of bookings on this day.");
+                pass = false;
+            }
+
+            if (_context.Slot.Where(x => x.RoomID == slot.RoomID && x.StartTime.Date == slot.StartTime.Date).Count() >= 2)
+            {
+                ModelState.AddModelError(string.Empty, "This room has reached its maximum number of bookings on this day.");
+                pass = false;
+            }
+
+            if (_context.Slot.Any(x => x.StaffID == slot.StaffID && x.StartTime == slot.StartTime))
+            {
+                ModelState.AddModelError(string.Empty, "This staff member already has a slot at this time.");
+                pass = false;
+            }
+            return pass;
         }
 
         // GET: Slots/Edit/5
