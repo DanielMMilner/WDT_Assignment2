@@ -23,19 +23,22 @@ namespace ASR
         }
 
         // GET: Booking
-        public async Task<IActionResult> Index(string date)
+        public async Task<IActionResult> Index(string startDate, string endDate)
         {
             // If no date has been provided populate it
-            if (date == null)
+            if (startDate == null || endDate == null)
             {
-                return Redirect($"booking?date={DateTime.Now.ToString("yyyy-MM-dd")}");
+                return Redirect($"booking?startdate={DateTime.Now.ToString("yyyy-MM-dd")}&enddate={DateTime.Now.ToString("yyyy-MM-dd")}");
             }
-            var dateTime = DateTime.Parse(date);
+            var sDate = DateTime.Parse(startDate);
+            var eDate = DateTime.Parse(endDate);
+
             var model = new BookingViewModel
             {
-                Date = dateTime,
+                StartDate = sDate,
+                EndDate = eDate,
                 BookingsForDate = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student)
-                .Where(x => x.StartTime.Date == dateTime.Date),
+                .Where(x => x.StartTime.Date >= sDate.Date && x.StartTime.Date <= eDate.Date),
                 MyBookings = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student)
                 .Where(x => x.StudentID == _userManager.GetUserId(User))
             };

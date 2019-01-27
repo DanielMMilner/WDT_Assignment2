@@ -9,6 +9,7 @@ namespace ASR.Models
     {
         public IEnumerable<Slot> MyBookings;
         public IEnumerable<Slot> BookingsForDate;
-        public DateTime Date;
+        public DateTime StartDate;
+        public DateTime EndDate;
     }
 }
