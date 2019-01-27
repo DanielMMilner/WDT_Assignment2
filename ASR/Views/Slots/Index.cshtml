@@ -46,8 +46,11 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { slotID = item.SlotID }) |
-                @Html.ActionLink("Details", "Details", new { slotID = item.SlotID }) |
-                @Html.ActionLink("Delete", "Delete", new { slotID = item.SlotID })
+                @Html.ActionLink("Details", "Details", new { slotID = item.SlotID })
+                @if (item.StudentID == null)
+                {
+                    @Html.ActionLink("| Delete", "Delete", new { slotID = item.SlotID })
+                }
             </td>
         </tr>
 }

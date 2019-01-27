@@ -229,6 +229,12 @@ namespace ASR.Controllers
             if (SlotExists(slotID))
             {
                 var slot = await _context.Slot.FindAsync(Int32.Parse(slotID));
+
+                if(slot.StudentID != null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.Slot.Remove(slot);
                 await _context.SaveChangesAsync();
             }
