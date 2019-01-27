@@ -76,8 +76,13 @@ namespace ASR
             if (SlotExists(Int32.Parse(slotID)))
             {
                 var slot = await _context.Slot.FindAsync(Int32.Parse(slotID));
-
                 slot.StudentID = _userManager.GetUserId(User);
+
+                if (_context.Slot.Any(x => x.StudentID == slot.StudentID && x.StartTime.Date == slot.StartTime.Date))
+                {
+                    Console.WriteLine("Student has already made a booking on this day");
+                    return RedirectToAction(nameof(Index));
+                }
 
                 _context.Update(slot);
 

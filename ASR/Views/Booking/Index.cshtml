@@ -94,13 +94,17 @@ else
                         @Html.DisplayFor(modelItem => item.Staff.SchoolID)
                     </td>
                     <td>
-                        @if (!Model.MyBookings.Any(x => x.StartTime.Date == Model.Date))
+                        @if (Model.MyBookings.Any(x => x.StartTime.Date == Model.Date) && item.StudentID == null)
                         {
-                            @Html.ActionLink("Book this slot", "Book", new { slotID = item.SlotID })
+                            <p>Max number of bookings reached</p>
+                        }
+                        else if (item.StudentID != null)
+                        {
+                            <p>Already booked by another student</p>
                         }
                         else
                         {
-                            <p>Booking unavailable</p>
+                            @Html.ActionLink("Book this slot", "Book", new { slotID = item.SlotID })
                         }
                     </td>
                 </tr>
