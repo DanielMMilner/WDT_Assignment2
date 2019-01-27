@@ -95,7 +95,7 @@ else
                         @Html.DisplayFor(modelItem => item.Staff.SchoolID)
                     </td>
                     <td>
-                        @if (Model.MyBookings.Any(x => x.StartTime.Date == Model.StartDate) && item.StudentID == null)
+                        @if (Model.MyBookings.Any(x => x.StartTime.Date == item.StartTime.Date) && item.StudentID == null)
                         {
                             <p>Max number of bookings reached</p>
                         }
