@@ -26,20 +26,22 @@ namespace ASR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Availability(string RoomID, DateTime Date)
+        public IActionResult Availability(string RoomID, DateTime StartDate, DateTime EndDate)
         {
             if (RoomID == null)
             {
                 return NotFound();
             }
 
-            var slot = _context.Slot.Where(x => x.RoomID == RoomID && x.StartTime.DayOfYear == Date.DayOfYear).ToList();
+            var slot = _context.Slot.Where(x => x.RoomID == RoomID && x.StartTime.Date >= StartDate.Date && x.StartTime.Date <= EndDate.Date).ToList();
             if (slot == null)
             {
                 return NotFound();
             }
 
-            ViewData["Date"] = String.Format("{0:dddd, MMMM d, yyyy}", Date);
+            ViewData["StartDate"] = String.Format("{0:dddd, MMMM d, yyyy}", StartDate);
+            ViewData["EndDate"] = String.Format("{0:dddd, MMMM d, yyyy}", EndDate);
+
             return View(slot);
         }
     }
