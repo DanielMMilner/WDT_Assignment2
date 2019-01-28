@@ -23,11 +23,20 @@ namespace ASR.Controllers
             _userManager = userManager;
         }
 
-        // GET: Slots
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime StartDate, DateTime EndDate)
         {
-            var asrContext = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student);
-            return View(await asrContext.ToListAsync());
+            var dateNotSet = 1;
+
+            if (StartDate.Year == dateNotSet || EndDate.Year == dateNotSet)
+            {
+                var asrContext = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student);
+                return View(await asrContext.ToListAsync());
+            }
+            else
+            {
+                var Slots = _context.Slot.Where(x => x.StartTime.Date >= StartDate.Date && x.StartTime.Date <= EndDate.Date);
+                return View(await Slots.ToListAsync());
+            }
         }
 
         // GET: Slots/Details/5
