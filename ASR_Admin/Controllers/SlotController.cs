@@ -9,18 +9,39 @@ using ASR_Admin.Models;
 namespace ASR_Admin.Controllers
 {
     [Route("api/[controller]")]
-    public class BookingController : Controller
+    public class SlotController : Controller
     {
 
         private readonly SlotDataAccessLayer slotDataAccessLayer = new SlotDataAccessLayer();
         
         // GET: api/<controller>
         [HttpGet]
+        [Route("Index")]
         public IEnumerable<string> Get()
         {
-            Console.WriteLine("hi ");
             return slotDataAccessLayer.GetSlots().Select(x => x.SlotId.ToString());
         }
+
+        [HttpGet]
+        [Route("GetAllSlots")]
+        public IEnumerable<Slot> GetAllSlots(DateTime date)
+        {
+            return slotDataAccessLayer.GetSlots();
+        }
+
+        [HttpGet("{date}")]
+        [Route("GetSlotsOnDay")]
+        public IEnumerable<Slot> GetSlotsOnDay(DateTime date)
+        {
+            return slotDataAccessLayer.GetSlots().Where(x => x.StartTime.Date == date.Date);
+        }
+
+        [Route("GetAllSlots")]
+        public IEnumerable<Slot> GetSlotsBetweenDates()
+        {
+            return slotDataAccessLayer.GetSlots();
+        }
+
 
         // GET api/<controller>/5
         [HttpGet("{id}")]

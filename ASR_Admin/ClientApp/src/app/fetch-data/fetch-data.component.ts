@@ -6,18 +6,19 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './fetch-data.component.html'
 })
 export class FetchDataComponent {
-  public forecasts: WeatherForecast[];
+  public slots: Slot[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + 'api/SampleData/WeatherForecasts').subscribe(result => {
-      this.forecasts = result;
+    http.get<Slot[]>(baseUrl + 'api/slot/getallslots').subscribe(result => {
+      this.slots = result;
     }, error => console.error(error));
   }
 }
 
-interface WeatherForecast {
-  dateFormatted: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+interface Slot {
+  slotId: string;
+  roomId: number;
+  startTime: Date;
+  staffId: string;
+  studentId: string;
 }

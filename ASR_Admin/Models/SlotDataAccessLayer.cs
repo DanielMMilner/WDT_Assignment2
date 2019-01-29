@@ -13,5 +13,10 @@ namespace ASR_Admin.Models
         {
             return db.Slot.ToList();
         }
+
+        public IEnumerable<Slot> GetSlots(string staffID)
+        {
+            return db.Slot.Where(x => x.StudentId == staffID).ToList();
+        }
     }
 }
