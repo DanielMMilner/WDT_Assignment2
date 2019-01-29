@@ -121,7 +121,16 @@ namespace ASR.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var name = info.Principal.FindFirst(ClaimTypes.GivenName).Value;
+                string name = "";
+
+                try
+                {
+                    name = info.Principal.FindFirst(ClaimTypes.GivenName).Value;
+                }
+                catch
+                {
+                    Console.WriteLine("Could not get users name from external login provider");
+                }
 
                 var user = new AppUser { UserName = Input.Email, Email = Input.Email, SchoolID = Input.SchoolID, Name = name };
 
