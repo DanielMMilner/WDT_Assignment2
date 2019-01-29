@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\js\site.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\Booking\Book.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
