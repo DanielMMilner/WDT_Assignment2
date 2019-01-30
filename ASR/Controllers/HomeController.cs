@@ -13,8 +13,6 @@ namespace ASR.Controllers
 
         public IActionResult Faq()
         {
-            ViewData["Message"] = "Your guide to ASR.";
-
             return View();
         }
 
