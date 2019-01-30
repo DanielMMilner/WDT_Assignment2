@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { SlotsComponent } from './slots/slots.component';
 
 import { UserManagementComponent } from './user-management/user-management.component';
@@ -17,7 +16,6 @@ import { UserManagementComponent } from './user-management/user-management.compo
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     SlotsComponent,
     UserManagementComponent
   ],
@@ -27,7 +25,6 @@ import { UserManagementComponent } from './user-management/user-management.compo
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
       { path: 'slots', component: SlotsComponent },
       { path: 'user-management', component: UserManagementComponent }
     ])

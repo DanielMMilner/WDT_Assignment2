@@ -1,7 +1,15 @@
 <h1>User Management</h1>
 
-<p *ngIf="!users"><em>Loading...</em></p>
-
+<p *ngIf="!users"><em>Loading users...</em></p>
+<div class="alert alert-warning" *ngIf="deleteFail==0">
+  <strong>Warning!</strong> All bookings and slots connected to the user will also be deleted
+</div>
+<div class="alert alert-danger" *ngIf="deleteFail==1">
+  <strong>Error!</strong> Unable to delete user
+</div>
+<div class="alert alert-success" *ngIf="deleteFail==2">
+  <strong>Success!</strong> User and all connected slots/bookings deleted
+</div>
 <table class='table' *ngIf="users">
   <thead>
     <tr>
@@ -16,7 +24,7 @@
       <td>{{ u.schoolId }}</td>
       <td>{{ u.name }}</td>
       <td>{{ u.email }}</td>
-      <td><a href=""></a></td>
+      <td><button type="submit" (click)="deleteUser(u.schoolId)">Delete User</button></td>
     </tr>
   </tbody>
 </table>

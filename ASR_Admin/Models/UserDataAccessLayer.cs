@@ -28,15 +28,21 @@ namespace ASR_Admin.Models
             {
                 return;
             }
+
             if(user.SchoolId.StartsWith("e"))
             {
                 db.Slot.RemoveRange(user.SlotStaff);
             }
             else
             {
-                user.SlotStudent.Select(x => x.StudentId = null);
+                var slotsToUpdate = db.Slot.Where(x => x.StudentId == user.Id).ToList();
+                slotsToUpdate.ForEach(x => x.StudentId = null);
+
+                db.Slot.UpdateRange(slotsToUpdate);
+                
             }
 
+            db.SaveChanges();
             db.Remove(user);
             db.SaveChanges();
         }
