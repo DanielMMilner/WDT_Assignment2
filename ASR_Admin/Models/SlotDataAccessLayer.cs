@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,14 +10,16 @@ namespace ASR_Admin.Models
     {
         private readonly dbContext db = new dbContext();
 
-        public IEnumerable<Slot> GetSlots()
+        public IEnumerable<ApiSlotModel> GetSlots()
         {
-            return db.Slot.ToList();
+            return db.Slot.Select(x => new ApiSlotModel
+            {
+                RoomName = x.RoomId,
+                startTime = x.StartTime,
+                StaffId = db.AspNetUsers.FirstOrDefault(u => u.Id == x.StaffId).SchoolId,
+                StudentId = db.AspNetUsers.FirstOrDefault(u => u.Id == x.StudentId).SchoolId
+            }).ToList();
         }
-
-        public IEnumerable<Slot> GetSlots(string staffID)
-        {
-            return db.Slot.Where(x => x.StudentId == staffID).ToList();
-        }
+        
     }
 }

@@ -1,0 +1,24 @@
+<h1>Slots</h1>
+
+<p *ngIf="!slots"><em>Loading...</em></p>
+
+<table class='table' *ngIf="slots">
+  <thead>
+    <tr>
+      <th>Room</th>
+      <th>Start Time</th>
+      <th>Staff ID</th>
+      <th>Student ID</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let slot of slots">
+      <td>{{ slot.roomName }}</td>
+      <td>{{ slot.startTime }}</td>
+      <td>{{ slot.staffId }}</td>
+      <td>{{ slot.studentId }}</td>
+      <td><a href="#">Delete Slot</a> <span *ngIf="slot.studentId">|</span> <a href="#" *ngIf="slot.studentId">Edit Booking</a></td>
+    </tr>
+  </tbody>
+</table>
