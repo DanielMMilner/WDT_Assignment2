@@ -8,6 +8,7 @@ using ASR.Data;
 using ASR.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace ASR.Controllers
 {
@@ -72,7 +73,7 @@ namespace ASR.Controllers
         // GET: Slots/Create
         public IActionResult Create()
         {
-            ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID");
+            ViewData["RoomName"] = new SelectList(_context.Room, "RoomName", "RoomName");
             ViewData["StaffID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('e')), "SchoolID", "SchoolID");
             ViewData["StudentID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('s')), "SchoolID", "SchoolID");
             return View();
@@ -83,9 +84,12 @@ namespace ASR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomID,StartTime,StaffID,StudentID")] Slot slot)
+        public async Task<IActionResult> Create(string RoomName, [Bind("RoomID,StartTime,StaffID,StudentID")] Slot slot)
         {
-            //set the slot ID to the correct primary keys
+            //find the correct room id from the room name.
+            slot.RoomID = _context.Room.FirstOrDefault(x => x.RoomName == RoomName).RoomID;
+
+            //set the slot ID to the correct primary keys.
             slot.StaffID = FindPrimaryKeyFromSchoolID(slot, slot.StaffID);
             if (slot.StudentID != null)
             {
@@ -103,11 +107,8 @@ namespace ASR.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID", slot.RoomID);
-            ViewData["StaffID"] = new SelectList(_context.AppUser, "StaffID", "StaffID", slot.StaffID);
-            ViewData["StudentID"] = new SelectList(_context.AppUser, "StudentID", "StudentID", slot.StudentID);
 
-            return View(slot);
+            return Create();
         }
 
         private bool SlotCreationBusinessRules(Slot slot)
@@ -164,7 +165,8 @@ namespace ASR.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID", slot.RoomID);
+
+            ViewData["RoomName"] = new SelectList(_context.Room, "RoomName", "RoomName", slot.Room.RoomName);
             ViewData["StaffID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('e')), "SchoolID", "SchoolID");
             ViewData["StudentID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('s')), "SchoolID", "SchoolID");
             ViewData["StartTime"] = new SelectList(_context.Slot, "StartTime", "StartTime", slot.StartTime);
@@ -176,16 +178,23 @@ namespace ASR.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string slotID, [Bind("SlotID,RoomID,StartTime,StaffID,StudentID")] Slot slot)
+        public async Task<IActionResult> Edit(string slotID, string RoomName, [Bind("SlotID,RoomID,StartTime,StaffID,StudentID")] Slot slot)
         {
             if (slotID != slot.SlotID.ToString())
             {
                 return NotFound();
             }
 
+            //find the correct room id from the room name.
+            slot.RoomID = _context.Room.FirstOrDefault(x => x.RoomName == RoomName).RoomID;
+
             //set the slot ID to the correct primary keys
             slot.StaffID = FindPrimaryKeyFromSchoolID(slot, slot.StaffID);
-            slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
+
+            if (slot.StudentID != null)
+            {
+                slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
+            }
 
             if (ModelState.IsValid)
             {
@@ -207,9 +216,10 @@ namespace ASR.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID", slot.RoomID);
-            ViewData["StaffID"] = new SelectList(_context.Slot, "StaffID", "StaffID", slot.StaffID);
-            ViewData["StudentID"] = new SelectList(_context.Slot, "StudentID", "StudentID", slot.StudentID);
+
+            ViewData["RoomName"] = new SelectList(_context.Room, "RoomName", "RoomName", RoomName);
+            ViewData["StaffID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('e')), "SchoolID", "SchoolID");
+            ViewData["StudentID"] = new SelectList(_context.AppUser.Where(x => x.SchoolID.StartsWith('s')), "SchoolID", "SchoolID");
             return View(slot);
         }
 
@@ -234,12 +244,12 @@ namespace ASR.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string slotID)
-        {            
+        {
             if (SlotExists(slotID))
             {
                 var slot = await _context.Slot.FindAsync(Int32.Parse(slotID));
 
-                if(slot.StudentID != null)
+                if (slot.StudentID != null)
                 {
                     return RedirectToAction(nameof(Index));
                 }

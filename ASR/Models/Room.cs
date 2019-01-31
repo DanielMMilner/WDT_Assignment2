@@ -5,7 +5,10 @@ namespace ASR.Models
 {
     public class Room
     {
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string RoomID { get; set; }
+
+        [Required]
+        public string RoomName { get; set; }
     }
 }

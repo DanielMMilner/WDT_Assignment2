@@ -21,7 +21,7 @@
                     <thead>
                         <tr>
                             <th>
-                                Room ID
+                                Room Name
                             </th>
                             <th>
                                 Start Time
@@ -38,7 +38,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Room.RoomID)
+                                    @Html.DisplayFor(modelItem => item.Room.RoomName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.StartTime)
@@ -98,7 +98,7 @@
                     <thead>
                         <tr>
                             <th>
-                                Room ID
+                                Room Name
                             </th>
                             <th>
                                 Start Time
@@ -116,7 +116,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Room.RoomID)
+                                    @Html.DisplayFor(modelItem => item.Room.RoomName)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.StartTime)
@@ -127,7 +127,7 @@
                                 <td>
                                     @if (Model.MyBookings.Any(x => x.StartTime.Date == item.StartTime.Date) && item.StudentID == null)
                                     {
-                                        <p class="text-danger">Max number of bookings reached</p>
+                                        <p class="text-danger">Max number of daily bookings reached</p>
                                     }
                                     else if (item.StudentID != null)
                                     {

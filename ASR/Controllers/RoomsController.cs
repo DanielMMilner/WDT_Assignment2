@@ -20,14 +20,16 @@ namespace ASR.Controllers
         // GET: Rooms
         public IActionResult Index()
         {
-            ViewData["RoomID"] = new SelectList(_context.Room, "RoomID", "RoomID");
+            ViewData["RoomName"] = new SelectList(_context.Room, "RoomName", "RoomName");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Availability(string RoomID, DateTime StartDate, DateTime EndDate)
+        public IActionResult Availability(string RoomName, DateTime StartDate, DateTime EndDate)
         {
+            var RoomID = _context.Room.FirstOrDefault(x => x.RoomName == RoomName).RoomID;
+
             if (RoomID == null)
             {
                 return NotFound();

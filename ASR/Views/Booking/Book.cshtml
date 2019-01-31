@@ -4,18 +4,15 @@
     ViewData["Title"] = "Slot Booking";
 }
 
-<h2>Make Booking</h2>
-
 <h3>Are you sure you want to book this slot?</h3>
 <div>
-    <h4>Slot</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Room)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Room.RoomID)
+            @Html.DisplayFor(model => model.Room.RoomName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.StartTime)
