@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ASR.Models;
-using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 
 namespace ASR
@@ -77,7 +76,6 @@ namespace ASR
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseCookiePolicy();
             app.UseAuthentication();
 
             app.UseMvc(routes =>

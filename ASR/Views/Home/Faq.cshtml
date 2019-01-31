@@ -1,13 +1,15 @@
 ﻿@{
     ViewData["Title"] = "FAQ";
 }
-<h2>@ViewData["Title"]</h2>
+<div class="page-header">
+    <h2>@ViewData["Title"] <small>Your guide to the Appointment Scheduling and Reservation system</small></h2>
+</div>
 
 <div class="row">
     <div class="col-md-8">
         <h1>Students</h1>
         <h3>Making a booking</h3>
-        <p>
+        <p >
             To make a booking head over to the bookings page or by clicking this <a asp-area="" asp-controller="Booking" asp-action="Index">link</a>.
             Once on the booking page, select the slot you wish to book and click the 'book' button.
             Remember, you must be logged in to use the booking system.
