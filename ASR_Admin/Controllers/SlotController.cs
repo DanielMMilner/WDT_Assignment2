@@ -20,7 +20,14 @@ namespace ASR_Admin.Controllers
         {
             return slotDataAccessLayer.GetSlots();
         }
-        
+
+        [HttpGet("{id}")]
+        [Route("GetSlot")]
+        public ApiSlotModel GetSlot(int id)
+        {
+            return slotDataAccessLayer.GetSlot(id);
+        }
+
 
     }
 }

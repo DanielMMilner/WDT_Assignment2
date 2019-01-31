@@ -1,5 +1,7 @@
 <h1>Slots</h1>
 
+<input type="text" name="name" value="" />
+
 <p *ngIf="!slots"><em>Loading...</em></p>
 
 <table class='table' *ngIf="slots">
@@ -8,7 +10,7 @@
       <th>Room</th>
       <th>Start Time</th>
       <th>Staff ID</th>
-      <th>Student ID</th>
+      <th>Booked by</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -18,8 +20,12 @@
       <td>{{ slot.startTime }}</td>
       <td>{{ slot.staffId }}</td>
       <td>{{ slot.studentId }}</td>
-      <td><a href="#">Delete Slot</a> <span *ngIf="slot.studentId">|</span> <a href="#" *ngIf="slot.studentId">Edit Booking</a></td>
+      <td>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default btn" (click)="editSlot(slot.slotId)"><i class="glyphicon glyphicon-pencil"></i></button>
+          <button type="button" class="btn btn-default btn" (click)="deleteSlot(slot.slotId)"><i class="glyphicon glyphicon-trash"></i></button>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
-<input id="clickMe" type="button" value="clickme" onclick="testFunc();" />

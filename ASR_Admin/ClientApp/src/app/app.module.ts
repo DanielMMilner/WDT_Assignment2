@@ -10,6 +10,9 @@ import { HomeComponent } from './home/home.component';
 import { SlotsComponent } from './slots/slots.component';
 
 import { UserManagementComponent } from './user-management/user-management.component';
+import { RoomsComponent } from './rooms/rooms.component';
+import { SlotsEditComponent } from './slots/slots-edit.component';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { UserManagementComponent } from './user-management/user-management.compo
     NavMenuComponent,
     HomeComponent,
     SlotsComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    RoomsComponent,
+    SlotsEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -26,7 +31,9 @@ import { UserManagementComponent } from './user-management/user-management.compo
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'slots', component: SlotsComponent },
-      { path: 'user-management', component: UserManagementComponent }
+      { path: 'user-management', component: UserManagementComponent },
+      { path: 'rooms', component: RoomsComponent },
+      { path: 'slots/edit/:id', component: SlotsEditComponent }
     ])
   ],
   providers: [],

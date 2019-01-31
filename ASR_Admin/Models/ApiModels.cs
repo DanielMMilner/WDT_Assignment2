@@ -14,10 +14,17 @@ namespace ASR_Admin.Models
 
     public class ApiSlotModel
     {
+        public int SlotId;
         public string RoomName;
         public string StudentId;
         public string StaffId;
         public DateTime startTime;
+    }
+
+    public class ApiRoomModel
+    {
+        public string RoomId;
+        public string RoomName;
     }
 
 }

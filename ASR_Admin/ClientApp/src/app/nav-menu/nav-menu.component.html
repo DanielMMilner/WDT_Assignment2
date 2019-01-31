@@ -23,9 +23,14 @@
               </a>
             </li>
             <li [routerLinkActive]='["link-active"]'>
-            <a [routerLink]='["/user-management"]' (click)='collapse()'>
-              <span class='glyphicon glyphicon-th-list'></span> User Management
-            </a>
+              <a [routerLink]='["/user-management"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> User Management
+              </a>
+            </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/rooms"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Rooms
+              </a>
             </li>
           </ul>
         </div>

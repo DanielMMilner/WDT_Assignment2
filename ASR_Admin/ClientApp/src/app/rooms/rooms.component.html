@@ -1,0 +1,18 @@
+<h1>Rooms</h1>
+
+<p *ngIf="!rooms"><em>Loading...</em></p>
+
+<table class='table' *ngIf="rooms">
+  <thead>
+    <tr>
+      <th>Rooms</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let room of rooms">
+      <td>{{ room.roomName }}</td>
+      <td>Edit</td>
+    </tr>
+  </tbody>
+</table>

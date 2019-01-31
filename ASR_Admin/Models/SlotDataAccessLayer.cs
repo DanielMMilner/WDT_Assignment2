@@ -14,11 +14,17 @@ namespace ASR_Admin.Models
         {
             return db.Slot.Select(x => new ApiSlotModel
             {
-                RoomName = x.RoomId,
+                SlotId = x.SlotId,
+                RoomName = x.Room.RoomName,
                 startTime = x.StartTime,
                 StaffId = db.AspNetUsers.FirstOrDefault(u => u.Id == x.StaffId).SchoolId,
                 StudentId = db.AspNetUsers.FirstOrDefault(u => u.Id == x.StudentId).SchoolId
             }).ToList();
+        }
+
+        public ApiSlotModel GetSlot(int id)
+        {
+            return GetSlots().FirstOrDefault(x => x.SlotId == id);
         }
         
     }

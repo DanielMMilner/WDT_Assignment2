@@ -14,7 +14,5 @@ namespace ASR_Admin.Models
         public Room Room { get; set; }
         public AspNetUsers Staff { get; set; }
         public AspNetUsers Student { get; set; }
-
-       
     }
 }
