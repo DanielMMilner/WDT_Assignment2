@@ -14,11 +14,11 @@ namespace ASR_Admin.Controllers
 
         private readonly SlotDataAccessLayer slotDataAccessLayer = new SlotDataAccessLayer();
        
-        [HttpGet]
-        [Route("GetAllSlots")]
-        public IEnumerable<ApiSlotModel> GetAllSlots()
+        [HttpGet("{id}")]
+        [Route("GetSlots")]
+        public IEnumerable<ApiSlotModel> GetSlotsForId(string id)
         {
-            return slotDataAccessLayer.GetSlots();
+            return slotDataAccessLayer.GetSlotsForId(id);
         }
 
         [HttpGet("{id}")]
@@ -28,6 +28,10 @@ namespace ASR_Admin.Controllers
             return slotDataAccessLayer.GetSlot(id);
         }
 
-
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            slotDataAccessLayer.DeleteSlot(id);
+        }
     }
 }

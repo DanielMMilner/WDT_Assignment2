@@ -26,13 +26,12 @@ export class UserManagementComponent {
   }
 
   deleteUser(id: string) {
-    this.httpClient.delete<AspUser[]>(this.baseURL + 'api/user/' + id).subscribe(result => {
+    this.httpClient.delete(this.baseURL + 'api/user/' + id).subscribe(result => {
       this.deleteFail = 2;
       this.updateList();
     }, error => this.deleteFail = 1);
     
   }
-
   
 }
 

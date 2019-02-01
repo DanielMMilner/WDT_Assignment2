@@ -10,11 +10,25 @@ namespace ASR_Admin.Models
         
         private readonly dbContext db = new dbContext();
 
-        public IEnumerable<AspNetUsers> GetAllUsers()
+        public IEnumerable<ApiUserModel> GetAllUsers()
         {
-            return db.AspNetUsers;
+            return db.AspNetUsers.Select(x => new ApiUserModel
+            {
+                SchoolId = x.SchoolId,
+                Name = x.Name,
+                Email = x.Email
+            });
         }
 
+        public IEnumerable<ApiUserModel> GetStudents()
+        {
+            return db.AspNetUsers.Where(x => x.SchoolId.StartsWith("s")).Select(x => new ApiUserModel
+            {
+                SchoolId = x.SchoolId,
+                Name = x.Name,
+                Email = x.Email
+            });
+        }
 
         public AspNetUsers GetUser(string id)
         {

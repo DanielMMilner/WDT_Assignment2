@@ -1,24 +1,53 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-slots',
   templateUrl: './slots.component.html'
 })
-export class SlotsComponent {
+export class SlotsComponent implements OnInit {
   public slots: Slot[];
+  public user: User;
+  public isStaff: boolean;
 
-
-  constructor(http: HttpClient, private router: Router, @Inject('BASE_URL') baseUrl: string) {
-    http.get<Slot[]>(baseUrl + 'api/slot/GetAllSlots').subscribe(result => {
-      this.slots = result;
-    }, error => console.error(error));
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, @Inject('BASE_URL') private baseUrl: string) {
+    this.updateData();
   }
 
-  editSlot(id: string) {
-    this.router.navigate(['/slots/edit/' + id]);
+  ngOnInit() {
+    this.updateData();
+  }
+
+
+  updateData() {
+    this.route.params.subscribe(f => {
+      this.http.get<Slot[]>(this.baseUrl + 'api/slot/getslots?=' + f.id).subscribe(result => {
+        this.slots = result;
+      }, error => console.error(error));
+      this.http.get<User>(this.baseUrl + 'api/user/' + f.id).subscribe(result => {
+        this.user = result;
+        this.isStaff = this.user.schoolId.startsWith("e");
+      }, error => console.error(error));
+    });
+  }
+
+  editSlot(id: number) {
+    this.router.navigate(['/slots/' + this.user.schoolId + '/edit/' + id]);
+  }
+
+  cancelBooking(id: number) {
+    this.http.delete<void>(this.baseUrl + 'api/booking/' + id)
+      .subscribe(result => {
+      }, error => console.log(error));
+  }
+
+  deleteSlot(id: number) {
+    this.http.delete<void>(this.baseUrl + 'api/slot/' + id)
+      .subscribe(result => {
+        this.updateData();
+      }, error => console.log(error));
   }
 
 }
@@ -30,3 +59,10 @@ interface Slot {
   staffId: string;
   studentId: string;
 }
+
+interface User {
+  schoolId: string;
+  Email: string;
+  Name: string;
+}
+

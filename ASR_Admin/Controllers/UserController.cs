@@ -17,10 +17,19 @@ namespace ASR_Admin.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<AspNetUsers> Get()
+        public IEnumerable<ApiUserModel> Get()
         {
             return users.GetAllUsers();
         }
+
+        // GET: api/<controller>
+        [HttpGet]
+        [Route("GetStudents")]
+        public IEnumerable<ApiUserModel> GetStudents()
+        {
+            return users.GetStudents();
+        }
+
 
         // GET api/<controller>/5
         [HttpGet("{id}")]

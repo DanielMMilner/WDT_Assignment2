@@ -30,10 +30,10 @@ import { SlotsEditComponent } from './slots/slots-edit.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'slots', component: SlotsComponent },
+      { path: 'slots/:id', component: SlotsComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'rooms', component: RoomsComponent },
-      { path: 'slots/edit/:id', component: SlotsEditComponent }
+      { path: 'slots/:id/edit/:slotid', component: SlotsEditComponent }
     ])
   ],
   providers: [],

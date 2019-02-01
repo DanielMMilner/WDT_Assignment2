@@ -1,11 +1,37 @@
 <h1>Edit this slot</h1>
 
-<p *ngIf="!slot"><em>Loading...</em></p>
+<p *ngIf="!slot && !students"><em>Loading...</em></p>
 
-<p>{{ slot.roomName }}</p>
-<p>{{ slot.startTime }}</p>
-<p>{{ slot.staffId }}</p>
-
-
-<input type="text" name="name" value="" />
-<p>{{ slot.studentId }}</p>
+<div *ngIf="slot && students">
+  <div class="form-group">
+    <label for="name">Room Name</label>
+    <input type="text" class="form-control" id="name" value="{{ slot.roomName }}" readonly>
+  </div>
+  <div class="form-group">
+    <label for="name">Start Date</label>
+    <input type="text" class="form-control" id="name" value="{{ slot.startTime }}" readonly>
+  </div>
+  <div class="form-group">
+    <label for="name">Staff Id</label>
+    <input type="text" class="form-control" id="name" value="{{ slot.staffId }}" readonly>
+  </div>
+  <div class="form-group">
+    <label for="name">Staff Id</label>
+    <input type="text" class="form-control" id="name" value="{{ slot.staffId }}" readonly>
+  </div>
+  <div class="form-group">
+    <label for="name">Booked Student</label>
+    <select class="form-control" [(ngModel)]='studentSelected'>
+      <option *ngFor="let u of students" value="{{u.schoolId}}">{{u.schoolId}} - {{u.name}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <div class="btn-group">
+      <button class="btn btn-default btn" (click)="cancelBooking()" [disabled]="!slot.studentId">Cancel Student Booking</button>
+      <button class="btn btn-default btn" (click)="updateBooking()" [disabled]="slot.studentId == studentSelected">Update Student Booking</button>
+    </div>
+  </div>
+</div>
+<div class="alert alert-danger" *ngIf="error">
+  <strong>Error!</strong> Unable to perform action
+</div>
