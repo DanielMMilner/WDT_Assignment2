@@ -80,8 +80,9 @@ namespace ASR.Migrations
 
             modelBuilder.Entity("ASR.Models.Room", b =>
                 {
-                    b.Property<string>("RoomID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("RoomID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("RoomName")
                         .IsRequired();
@@ -97,8 +98,7 @@ namespace ASR.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("RoomID")
-                        .IsRequired();
+                    b.Property<int>("RoomID");
 
                     b.Property<string>("StaffID")
                         .IsRequired();

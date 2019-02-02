@@ -11,7 +11,7 @@ namespace ASR.Models
 
         [Required]
         [Display(Name = "Room ID")]
-        public string RoomID { get; set; }
+        public int RoomID { get; set; }
         public virtual Room Room { get; set; }
 
         [Required]

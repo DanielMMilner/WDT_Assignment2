@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASR.Migrations
 {
     [DbContext(typeof(AsrContext))]
-    [Migration("20190131012900_roomid")]
-    partial class roomid
+    [Migration("20190202110938_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -82,8 +82,9 @@ namespace ASR.Migrations
 
             modelBuilder.Entity("ASR.Models.Room", b =>
                 {
-                    b.Property<string>("RoomID")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("RoomID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("RoomName")
                         .IsRequired();
@@ -99,8 +100,7 @@ namespace ASR.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("RoomID")
-                        .IsRequired();
+                    b.Property<int>("RoomID");
 
                     b.Property<string>("StaffID")
                         .IsRequired();

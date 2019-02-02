@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASR.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,19 +41,22 @@ namespace ASR.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    SchoolID = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    SchoolID = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.UniqueConstraint("AK_AspNetUsers_SchoolID", x => x.SchoolID);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Room",
                 columns: table => new
                 {
-                    RoomID = table.Column<string>(nullable: false)
+                    RoomID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    RoomName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -172,7 +175,7 @@ namespace ASR.Migrations
                 {
                     SlotID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoomID = table.Column<string>(nullable: false),
+                    RoomID = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     StaffID = table.Column<string>(nullable: false),
                     StudentID = table.Column<string>(nullable: true)
