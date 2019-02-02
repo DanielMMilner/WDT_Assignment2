@@ -2,6 +2,13 @@
 
 <p *ngIf="!rooms"><em>Loading...</em></p>
 
+<div class="alert alert-danger" *ngIf="deleteFail==1">
+  <strong>Error!</strong> Unable to edit room name
+</div>
+<div class="alert alert-success" *ngIf="deleteFail==2">
+  <strong>Success!</strong> Room name updated
+</div>
+
 <table class='table' *ngIf="rooms">
   <thead>
     <tr>
@@ -11,8 +18,22 @@
   </thead>
   <tbody>
     <tr *ngFor="let room of rooms">
-      <td>{{ room.roomName }}</td>
-      <td>Edit</td>
+      <td><input type="text" class="form-control" id="roomName-{{room.roomId}}" value="{{ room.roomName }}" /></td>
+      <td>
+        <div class="btn-group">
+          <button class="btn btn-default" (click)="editRoomName(room.roomId)">Update Room Name</button>
+        </div>
+      </td>
     </tr>
   </tbody>
 </table>
+
+<form action="/" method="post">
+  <div class="form-group">
+    <label for="name"></label>
+    <input type="text" class="form-control" id="name">
+  </div>
+  <div class="form-group">
+    <button class="btn btn-default">Add Room</button>
+  </div>
+</form>
