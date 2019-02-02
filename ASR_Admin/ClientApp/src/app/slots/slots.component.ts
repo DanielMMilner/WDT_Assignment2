@@ -23,9 +23,11 @@ export class SlotsComponent implements OnInit {
 
   updateData() {
     this.route.params.subscribe(f => {
+      // Get the updated slots for the given user id
       this.http.get<Slot[]>(this.baseUrl + 'api/slot/getslots?=' + f.id).subscribe(result => {
         this.slots = result;
       }, error => console.error(error));
+      // Get the information for the user
       this.http.get<User>(this.baseUrl + 'api/user/' + f.id).subscribe(result => {
         this.user = result;
         this.isStaff = this.user.schoolId.startsWith("e");
@@ -38,6 +40,7 @@ export class SlotsComponent implements OnInit {
   }
 
   cancelBooking(id: number) {
+    // Cancel the booking
     this.http.delete<void>(this.baseUrl + 'api/booking/' + id)
       .subscribe(result => {
       }, error => console.log(error));

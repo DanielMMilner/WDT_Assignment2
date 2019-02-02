@@ -117,6 +117,8 @@ namespace ASR_Admin.Models
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
+                entity.Property(e => e.Name).IsRequired();
+
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
@@ -139,9 +141,9 @@ namespace ASR_Admin.Models
 
             modelBuilder.Entity<Room>(entity =>
             {
-                entity.Property(e => e.RoomId)
-                    .HasColumnName("RoomID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.RoomId).HasColumnName("RoomID");
+
+                entity.Property(e => e.RoomName).IsRequired();
             });
 
             modelBuilder.Entity<Slot>(entity =>
@@ -154,9 +156,7 @@ namespace ASR_Admin.Models
 
                 entity.Property(e => e.SlotId).HasColumnName("SlotID");
 
-                entity.Property(e => e.RoomId)
-                    .IsRequired()
-                    .HasColumnName("RoomID");
+                entity.Property(e => e.RoomId).HasColumnName("RoomID");
 
                 entity.Property(e => e.StaffId)
                     .IsRequired()

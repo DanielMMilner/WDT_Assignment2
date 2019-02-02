@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ASR_Admin.Models
 {
@@ -10,7 +11,7 @@ namespace ASR_Admin.Models
             Slot = new HashSet<Slot>();
         }
 
-        public string RoomId { get; set; }
+        public int RoomId { get; set; }
         public string RoomName { get; set; }
 
         public ICollection<Slot> Slot { get; set; }

@@ -8,22 +8,33 @@ import { Observable } from 'rxjs/Observable';
 })
 export class RoomsComponent {
   public rooms: Room[];
-
+  public newRoomName: string = "";
+  public addStatus: number; //0 Nothing, 1 = Success, 2 = fail
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
-    http.get<Room[]>(baseUrl + 'api/room/').subscribe(result => {
+    this.updateList();
+  }
+
+  updateList() {
+    this.http.get<Room[]>(this.baseUrl + 'api/room/').subscribe(result => {
       this.rooms = result;
     }, error => console.error(error));
   }
 
+  addRoom() {
+    if (this.newRoomName) {
+      this.http.post<Room[]>(this.baseUrl + 'api/room/', { roomName: this.newRoomName }).subscribe(result => {
+        this.addStatus = 1;
+        this.updateList();
+      }, error => this.addStatus = 2);
+    }
+  }
 
-
-  editRoomName(id: string) {
-    //let r = this.rooms.find(x => x.roomId == id);
-    //r.roomName = document.getElementById("roomName-" + id).;
-    //this.http.put<void>(this.baseUrl + 'api/room/' + id, r).subscribe(result => {
-      
-    //}, error => console.error(error));
+  deleteRoom(id: number) {
+    this.http.delete<void>(this.baseUrl + 'api/room/' + id)
+      .subscribe(result => {
+        this.updateList();
+      }, error => console.log(error));
   }
 
 }

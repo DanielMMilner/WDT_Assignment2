@@ -12,7 +12,7 @@ import { SlotsComponent } from './slots/slots.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { SlotsEditComponent } from './slots/slots-edit.component';
-
+import { RoomsEditComponent } from './rooms/rooms-edit.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import { SlotsEditComponent } from './slots/slots-edit.component';
     SlotsComponent,
     UserManagementComponent,
     RoomsComponent,
-    SlotsEditComponent
+    SlotsEditComponent,
+    RoomsEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -33,7 +34,8 @@ import { SlotsEditComponent } from './slots/slots-edit.component';
       { path: 'slots/:id', component: SlotsComponent },
       { path: 'user-management', component: UserManagementComponent },
       { path: 'rooms', component: RoomsComponent },
-      { path: 'slots/:id/edit/:slotid', component: SlotsEditComponent }
+      { path: 'slots/:id/edit/:slotid', component: SlotsEditComponent },
+      { path: 'rooms/:id', component: RoomsEditComponent }
     ])
   ],
   providers: [],

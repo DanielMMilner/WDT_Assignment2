@@ -23,7 +23,7 @@ namespace ASR_Admin.Models
 
     public class ApiRoomModel
     {
-        public string RoomId;
+        public int RoomId;
         public string RoomName;
     }
 

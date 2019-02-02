@@ -22,16 +22,29 @@ namespace ASR_Admin.Controllers
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public ApiRoomModel Get(string id)
+        public ApiRoomModel Get(int id)
         {
             return roomDataAccessLayer.GetRoom(id);
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]ApiRoomModel value)
+        [HttpPut]
+        public void Put([FromBody]ApiRoomModel value)
         {
             roomDataAccessLayer.UpdateRoomName(value.RoomId, value.RoomName);
+        }
+
+        // POST api/<controller>
+        [HttpPost]
+        public void Post([FromBody]ApiRoomModel room)
+        {
+            roomDataAccessLayer.AddRoom(room.RoomName);
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            roomDataAccessLayer.DeleteRoom(id);
         }
 
     }
