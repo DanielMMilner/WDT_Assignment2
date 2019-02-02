@@ -137,8 +137,9 @@ namespace ASR.Areas.Identity.Pages.Account
                 try
                 {
                     var result = await _userManager.CreateAsync(user);
+                    bool isStaff = Input.SchoolID.StartsWith('e');
 
-                    if (Input.SchoolID.StartsWith('e'))
+                    if (isStaff)
                     {
                         if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
                             await _userManager.AddToRoleAsync(user, Constants.Staff);
@@ -156,7 +157,7 @@ namespace ASR.Areas.Identity.Pages.Account
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false);
                             _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                            return LocalRedirect(returnUrl);
+                            return RedirectToPage("Success", "Success", new { name = user.Name, email = user.Email, schoolID = user.SchoolID, staffRole = isStaff});                            
                         }
                     }
                     foreach (var error in result.Errors)

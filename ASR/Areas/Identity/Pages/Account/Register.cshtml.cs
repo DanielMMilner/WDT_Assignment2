@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using ASR.Data;
+using System.Text.RegularExpressions;
 
 namespace ASR.Areas.Identity.Pages.Account
 {
@@ -60,9 +61,7 @@ namespace ASR.Areas.Identity.Pages.Account
             [Display(Name = "Name")]
             public string Name { get; set; }
 
-            [Key, Required]
-            [Display(Name = "SchoolID")]
-            [RegularExpression(@"^(e\d{5})|(s\d{7})$", ErrorMessage = "Invalid staff or student login format")]
+            [Key]
             public string SchoolID { get; set; }
         }
 
@@ -73,15 +72,41 @@ namespace ASR.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("~/Identity/Account/Success");
             if (ModelState.IsValid)
             {
+                bool isStaff = false;
+                string regex;
+
+                if (Input.Email.StartsWith('e'))
+                {
+                    isStaff = true;
+                    regex = @"^(e\d{5})";
+                }
+                else
+                {
+                    regex = @"^(s\d{7})";
+                }
+
+                Regex r = new Regex(regex, RegexOptions.IgnoreCase);
+                Match m = r.Match(Input.Email);
+
+                if (m.Success)
+                {
+                    Input.SchoolID = m.ToString();
+                }
+                else
+                {
+                    return Page();
+                }
+
                 var user = new AppUser { UserName = Input.Email, Email = Input.Email, SchoolID = Input.SchoolID, Name = Input.Name };
+
                 try
                 {
                     var result = await _userManager.CreateAsync(user, Input.Password);
 
-                    if (Input.SchoolID.StartsWith('e'))
+                    if (isStaff)
                     {
                         if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
                             await _userManager.AddToRoleAsync(user, Constants.Staff);
@@ -108,7 +133,7 @@ namespace ASR.Areas.Identity.Pages.Account
 
                         await _signInManager.SignInAsync(user, isPersistent: false);
 
-                        return LocalRedirect(returnUrl);
+                        return RedirectToPage("Success", "Success", new { name = user.Name, email = user.Email, schoolID = user.SchoolID, staffRole = isStaff});                    
                     }
                     foreach (var error in result.Errors)
                     {
@@ -117,7 +142,7 @@ namespace ASR.Areas.Identity.Pages.Account
                 }
                 catch
                 {
-                    ModelState.AddModelError(string.Empty, $"The SchoolID '{Input.SchoolID}' is already in use");
+                    ModelState.AddModelError(string.Empty, $"The SchoolID '{user.SchoolID}' is already in use");
                 }
             }
 

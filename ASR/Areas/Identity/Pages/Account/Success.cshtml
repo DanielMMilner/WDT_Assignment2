@@ -1,0 +1,36 @@
+﻿@page
+@model SuccessModel
+@{
+    ViewData["Title"] = "Success";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-lg-5">
+        <div class="alert alert-success">
+            <strong>Success!</strong> Your account has been successfully created.
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-5">
+        <div class="well">
+            <p>Your credentials</p>
+            <ul>
+                <li>
+                    Name: @Model.Name
+                </li>
+                <li>
+                    Email: @Model.Email
+                </li>
+                <li>
+                    SchoolID: @Model.SchoolID
+                </li>
+                <li>
+                    Role: @Model.Role
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

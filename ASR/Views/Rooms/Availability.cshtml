@@ -4,10 +4,15 @@
     ViewData["Title"] = "Availability";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>Availability</h2>
 <h4>This room has the following bookings from @ViewBag.StartDate to @ViewBag.EndDate:</h4>
-<p>Rooms can only have two slots per day.</p>
+<div class="row">
+    <div class="col-lg-5">
+        <div class="alert alert-info">
+            <strong>Reminder!</strong> A room can have a maximum of two slots per day.
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12">
