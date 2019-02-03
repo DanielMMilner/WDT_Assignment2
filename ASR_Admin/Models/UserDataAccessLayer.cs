@@ -37,12 +37,14 @@ namespace ASR_Admin.Models
 
         public void RemoveUser(string id)
         {
+            // Find the user to remove based on the school id
             var user = db.AspNetUsers.FirstOrDefault(x => x.SchoolId == id);
             if(user == null)
             {
                 return;
             }
 
+            // If a staff or student remove the slots or bookings for the user
             if(user.SchoolId.StartsWith("e"))
             {
                 db.Slot.RemoveRange(user.SlotStaff);
@@ -53,9 +55,9 @@ namespace ASR_Admin.Models
                 slotsToUpdate.ForEach(x => x.StudentId = null);
 
                 db.Slot.UpdateRange(slotsToUpdate);
-                
             }
 
+            // Remove the slots first, then the user to prevent fk errors
             db.SaveChanges();
             db.Remove(user);
             db.SaveChanges();

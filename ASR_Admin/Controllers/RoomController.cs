@@ -13,34 +13,37 @@ namespace ASR_Admin.Controllers
     public class RoomController : Controller
     {
         private readonly RoomDataAccessLayer roomDataAccessLayer = new RoomDataAccessLayer();
+
         // GET: api/<controller>
+        // Returns all the rooms
         [HttpGet]
         public IEnumerable<ApiRoomModel> Get()
         {
             return roomDataAccessLayer.GetAllRooms();
         }
 
-        // GET api/<controller>/5
+        // Get the information for a single room with the given id
         [HttpGet("{id}")]
         public ApiRoomModel Get(int id)
         {
             return roomDataAccessLayer.GetRoom(id);
         }
 
-        // PUT api/<controller>/5
+        // Update the roomname of the given room element
         [HttpPut]
         public void Put([FromBody]ApiRoomModel value)
         {
             roomDataAccessLayer.UpdateRoomName(value.RoomId, value.RoomName);
         }
 
-        // POST api/<controller>
+        // Add a new room
         [HttpPost]
         public void Post([FromBody]ApiRoomModel room)
         {
             roomDataAccessLayer.AddRoom(room.RoomName);
         }
 
+        // Delete a room with the given id
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

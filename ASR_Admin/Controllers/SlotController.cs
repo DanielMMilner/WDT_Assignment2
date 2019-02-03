@@ -14,6 +14,7 @@ namespace ASR_Admin.Controllers
 
         private readonly SlotDataAccessLayer slotDataAccessLayer = new SlotDataAccessLayer();
        
+        // Get all slots for a given user school id
         [HttpGet("{id}")]
         [Route("GetSlots")]
         public IEnumerable<ApiSlotModel> GetSlotsForId(string id)
@@ -21,6 +22,7 @@ namespace ASR_Admin.Controllers
             return slotDataAccessLayer.GetSlotsForId(id);
         }
 
+        // Get a slot given a slot id
         [HttpGet("{id}")]
         [Route("GetSlot")]
         public ApiSlotModel GetSlot(int id)
@@ -28,6 +30,7 @@ namespace ASR_Admin.Controllers
             return slotDataAccessLayer.GetSlot(id);
         }
 
+        // Delete a slot given a slotid
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

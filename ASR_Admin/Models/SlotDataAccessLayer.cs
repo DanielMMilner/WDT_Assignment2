@@ -12,6 +12,7 @@ namespace ASR_Admin.Models
 
         public IEnumerable<ApiSlotModel> GetSlots()
         {
+            // Strip extra info from the response
             return db.Slot.Select(x => new ApiSlotModel
             {
                 SlotId = x.SlotId,
@@ -34,7 +35,9 @@ namespace ASR_Admin.Models
 
         public void UpdateBooking(int id, string studentId)
         {
+            // Find the slop to update the student id on.
             var slotToUpdate = db.Slot.FirstOrDefault(x => x.SlotId == id);
+            // Update the student id with the aspnetuser id
             slotToUpdate.StudentId = db.AspNetUsers.FirstOrDefault(x => x.SchoolId == studentId).Id;
             
             db.Slot.Update(slotToUpdate);
@@ -43,6 +46,7 @@ namespace ASR_Admin.Models
 
         public void CancelBooking(int id)
         {
+            // Find the slop to update the student id on.
             var slotToUpdate = db.Slot.FirstOrDefault(x => x.SlotId == id);
             slotToUpdate.StudentId = null;
 
@@ -52,6 +56,7 @@ namespace ASR_Admin.Models
 
         public void DeleteSlot(int id)
         {
+            // Find and remove the slot
             var slot = db.Slot.FirstOrDefault(x => x.SlotId == id);
 
             db.Slot.Remove(slot);

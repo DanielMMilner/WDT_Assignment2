@@ -15,30 +15,21 @@ namespace ASR_Admin.Controllers
 
         private readonly UserDataAccessLayer users = new UserDataAccessLayer();
         
-        // GET: api/<controller>
+        // Get all users
         [HttpGet]
         public IEnumerable<ApiUserModel> Get()
         {
             return users.GetAllUsers();
         }
 
-        // GET: api/<controller>
-        [HttpGet]
-        [Route("GetStudents")]
-        public IEnumerable<ApiUserModel> GetStudents()
-        {
-            return users.GetStudents();
-        }
-
-
-        // GET api/<controller>/5
+        // Get a single user given the school id
         [HttpGet("{id}")]
         public AspNetUsers Get(string id)
         {
             return users.GetUser(id);
         }
 
-        // DELETE api/<controller>/5
+        // Delete a user given the school id
         [HttpDelete("{id}")]
         public void Delete(string id)
         {

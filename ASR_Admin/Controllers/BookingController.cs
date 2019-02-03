@@ -14,12 +14,14 @@ namespace ASR_Admin.Controllers
     {
         private readonly SlotDataAccessLayer slotDataAccessLayer = new SlotDataAccessLayer();
 
+        // Updates the given booking with the new student information
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] ApiUserModel student)
         {
             slotDataAccessLayer.UpdateBooking(id, student.SchoolId);
         }
 
+        // Cancels the booking with the given id
         [HttpDelete("{id}")]
         public void CancelBooking(int id)
         {

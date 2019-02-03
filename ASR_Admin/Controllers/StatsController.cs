@@ -18,6 +18,7 @@ namespace ASR_Admin.Controllers
         
 
         // GET: api/<controller>
+        // Return a stats object
         [HttpGet]
         public ApiStatsModel Get()
         {
