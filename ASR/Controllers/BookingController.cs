@@ -23,7 +23,7 @@ namespace ASR
         }
 
         // GET: Booking
-        public async Task<IActionResult> Index(string startDate, string endDate)
+        public IActionResult Index(string startDate, string endDate)
         {
             // If no date has been provided populate it
             if (startDate == null || endDate == null)

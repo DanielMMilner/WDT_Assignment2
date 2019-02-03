@@ -27,7 +27,7 @@ namespace ASR_Admin.Models
                 SchoolId = x.SchoolId,
                 Name = x.Name,
                 Email = x.Email
-            });
+            }).OrderBy(x => x.Name);
         }
 
         public AspNetUsers GetUser(string id)

@@ -22,6 +22,16 @@ namespace ASR_Admin.Controllers
             return users.GetAllUsers();
         }
 
+        // GET: api/<controller>
+        // Returns all students
+        [HttpGet]
+        [Route("GetStudents")]
+        public IEnumerable<ApiUserModel> GetStudents()
+        {
+            return users.GetStudents();
+        }
+
+
         // Get a single user given the school id
         [HttpGet("{id}")]
         public AspNetUsers Get(string id)
