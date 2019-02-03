@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Sitemap";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <ul>
+            <li>
+                <a asp-area="" asp-controller="Home" asp-action="Faq">FAQ</a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Home Page</a>
+            </li>
+
+            @if (User.IsInRole("Staff"))
+            {
+                <li><a asp-area="" asp-controller="Rooms" asp-action="Index">Room Availability</a></li>
+                <li><a asp-area="" asp-controller="Slots" asp-action="Index">Slots</a></li>
+            }
+            else if (User.IsInRole("Student"))
+            {
+                <li><a asp-area="" asp-controller="Booking" asp-action="Index">Bookings</a></li>
+                <li><a asp-area="" asp-controller="Staff" asp-action="Index">Staff Availability</a></li>
+            }
+            else
+            {
+                <ul>
+                    <li>
+                        <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                    <li>
+                        <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                </ul>
+            }
+        </ul>
+    </div>
+</div>

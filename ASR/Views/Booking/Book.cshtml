@@ -1,0 +1,36 @@
+﻿@model ASR.Models.Slot
+
+@{
+    ViewData["Title"] = "Slot Booking";
+}
+
+<h3>Are you sure you want to book this slot?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Room)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Room.RoomName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Staff)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Staff.SchoolID)
+        </dd>
+    </dl>
+    
+    <form asp-action="Book">
+        <input type="hidden" asp-for="SlotID" />
+        <input type="submit" value="Book" class="btn btn-default" /> |
+        <a asp-action="Index">Back to Bookings</a>
+    </form>
+</div>

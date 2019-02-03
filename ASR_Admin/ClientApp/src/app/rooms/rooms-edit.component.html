@@ -1,0 +1,21 @@
+<h1>Edit room name</h1>
+
+<p *ngIf="!room"><em>Loading...</em></p>
+
+<div *ngIf="room" class="col-lg-3">
+  <br />
+  <h4>Current room name: <strong>{{room.roomName}}</strong></h4>
+  <br />
+  <div class="form-group">
+    <label for="newName">New Room Name</label>
+    <input type="text" class="form-control" id="newName" [(ngModel)]="newName" value="{{room.roomName}}">
+  </div>
+  <div class="form-group">
+    <button class="btn btn-default" routerLink="/rooms/">Cancel</button>
+    <button class="btn btn-default" [disabled]="!newName" (click)="updateRoomName()">Update room name</button>
+  </div>
+</div>
+
+<div class="alert alert-danger" *ngIf="errMsg">
+  <strong>Error!</strong> {{errMsg}}
+</div>

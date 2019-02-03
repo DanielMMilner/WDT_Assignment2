@@ -1,0 +1,36 @@
+﻿@model ASR.Models.Room
+
+@{
+    ViewData["Title"] = "Staff availability";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h2>@ViewData["Title"]</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="well well-lg">
+            <form asp-action="Availability">
+                <div class="form-group">
+                    <label class="control-label">Staff ID</label>
+                    <select name="SchoolID" class="form-control" asp-items="ViewBag.SchoolID"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Start Date</label>
+                    <input required name="StartDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Start Date</label>
+                    <input required name="EndDate" type="date" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">
+                        <span class="glyphicon glyphicon-search"></span> Find available slots
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

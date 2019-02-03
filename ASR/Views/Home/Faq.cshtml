@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "FAQ";
+}
+<div class="page-header">
+    <h2>@ViewData["Title"] <small>Your guide to the Appointment Scheduling and Reservation system</small></h2>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <h1>Students</h1>
+        <h3>Making a booking</h3>
+        <p>
+            To make a booking head over to the bookings page or by clicking this <a asp-area="" asp-controller="Booking" asp-action="Index">link</a>.
+            Once on the booking page, select the slot you wish to book and click the 'book' button.
+            Remember, you must be logged in to use the booking system.
+        </p>
+        <h3>Cancelling a booking</h3>
+        <p>
+            To cancel a booking, head over to the bookings page or by clicking this <a asp-area="" asp-controller="Booking" asp-action="Index">link</a>.
+            Find the booking you wish to cancel and click 'cancel'. Remember, you must be logged as the user who made the booking to cancel a booking.
+        </p>
+        <h3>Staff availabilty</h3>
+        <p>
+            To view the availability of staff members, go to the staff availability page or alternatively click the following <a asp-area="" asp-controller="Staff" asp-action="Index">link</a>.
+            Enter the staff members ID and the date range which you want to view their availability and click 'search'.
+            All the availabile slots for that staff member during that time will then be shown.
+        </p>
+
+        <hr />
+
+        <h1>Staff</h1>
+        <h3>Creating a slot</h3>
+        <p>
+            To create a slot go to the slots page by clicking this <a asp-area="" asp-controller="Slots" asp-action="Index">link</a> or clicking 'Slots' in the navigation bar at the top of the page.
+            Click the 'Create New' button at the top of the page. This will take you to the slot creation form. Enter the relevant information and click 'Create' at the bottom of the page.
+            Remember, you must be logged into a staff account to create a slot. In additon. closts can only be created at the top of the hour and dutring school hours of 9am-2pm. All slots go for one hour.
+        </p>
+        <h3>Removing a slot</h3>
+        <p>
+            To create a slot go to the slots page by clicking this <a asp-area="" asp-controller="Slots" asp-action="Index">link</a> or clicking 'Slots' in the navigation bar at the top of the page.
+            This page will show all the current slots in the system. To delete a slot, click the 'delete' button in the relevant row. Slots which have a student booked into it cannot be deleted.
+            Any staff member can delete slots, including slots belonging to other staff members.
+        </p>
+        <h3>Viewing your slots</h3>
+        <p>
+            To create a slot go to the slots page by clicking this <a asp-area="" asp-controller="Slots" asp-action="Index">link</a> or clicking 'Slots' in the navigation bar at the top of the page.
+            This page will show all the current slots in the system. To filter just your own slots, click the 'My schedule' button at the top of the page.
+        </p>
+        <h3>Viewing room availability</h3>
+        <p>
+            To view room availability, click the Room availability button at the top of the page or click the following <a asp-area="" asp-controller="Rooms" asp-action="Index">link</a>.
+            On this page, enter the room ID and date that you wish to view a rooms slots. The result of this search will display all the current slots a room has been booked for on that day.
+            A room can only be booked for two slots per day.
+        </p>
+    </div>
+</div>
