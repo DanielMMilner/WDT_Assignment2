@@ -13,7 +13,12 @@ namespace ASR_Admin.Controllers
     public class UserController : Controller
     {
 
-        private readonly UserDataAccessLayer users = new UserDataAccessLayer();
+        private UserDataAccessLayer users;
+
+        public UserController(UserDataAccessLayer u)
+        {
+            users = u;
+        }
 
         // GET: api/<controller>
         [HttpGet]

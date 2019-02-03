@@ -27,4 +27,11 @@ namespace ASR_Admin.Models
         public string RoomName;
     }
 
+    public class ApiStatsModel
+    {
+        public int UserCount;
+        public int SlotCount;
+        public int BookedSlotCount;
+        public int RoomCount;
+    }
 }

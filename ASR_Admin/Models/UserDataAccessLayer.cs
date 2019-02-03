@@ -60,5 +60,10 @@ namespace ASR_Admin.Models
             db.Remove(user);
             db.SaveChanges();
         }
+
+        public int GetUserCount()
+        {
+            return db.AspNetUsers.ToList().Count;
+        }
     }
 }

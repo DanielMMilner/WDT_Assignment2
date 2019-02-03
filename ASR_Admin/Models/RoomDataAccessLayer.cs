@@ -50,5 +50,10 @@ namespace ASR_Admin.Models
             db.SaveChanges();
             
         }
+
+        public int GetRoomCount()
+        {
+            return db.Room.ToList().Count;
+        }
     }
 }

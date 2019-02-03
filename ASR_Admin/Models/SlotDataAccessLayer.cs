@@ -58,7 +58,15 @@ namespace ASR_Admin.Models
             
             db.SaveChanges();
         }
+        
+        public int GetSlotCount()
+        {
+            return db.Slot.ToList().Count;
+        }
 
-    
+        public int GetBookedCount()
+        {
+            return db.Slot.Where(x => x.StudentId != null).ToList().Count;
+        }
     }
 }
