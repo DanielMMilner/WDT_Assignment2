@@ -13,23 +13,27 @@
             <li>
                 <a asp-area="" asp-controller="Home" asp-action="Index">Home Page</a>
             </li>
-            <ul>
-                <li>
-                    <a asp-area="Identity" asp-page="/Account/Register">Register</a>
-                </li>
-                <li>
-                    <a asp-area="Identity" asp-page="/Account/Login">Login</a>
-                </li>
-            </ul>
 
             @if (User.IsInRole("Staff"))
             {
                 <li><a asp-area="" asp-controller="Rooms" asp-action="Index">Room Availability</a></li>
                 <li><a asp-area="" asp-controller="Slots" asp-action="Index">Slots</a></li>
             }
-            @if (User.IsInRole("Student"))
+            else if (User.IsInRole("Student"))
             {
                 <li><a asp-area="" asp-controller="Booking" asp-action="Index">Bookings</a></li>
+                <li><a asp-area="" asp-controller="Staff" asp-action="Index">Staff Availability</a></li>
+            }
+            else
+            {
+                <ul>
+                    <li>
+                        <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </li>
+                    <li>
+                        <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+                    </li>
+                </ul>
             }
         </ul>
     </div>
