@@ -9,7 +9,7 @@
   </div>
   <div class="form-group">
     <label for="startTime">Start Date</label>
-    <input type="text" class="form-control" id="startTime" value="{{ slot.startTime }}" readonly>
+    <input type="text" class="form-control" id="startTime" value="{{ slot.startTime | date :  'd/M/yy, h:mm a'}}" readonly>
   </div>
   <div class="form-group">
     <label for="staffID">Staff Id</label>

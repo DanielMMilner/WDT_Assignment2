@@ -16,7 +16,7 @@
   <tbody>
     <tr *ngFor="let slot of slots">
       <td>{{ slot.roomName }}</td>
-      <td>{{ slot.startTime }}</td>
+      <td>{{ slot.startTime | date :  "d/M/yy, h:mm a"  }}</td>
       <td>{{ slot.staffId }}</td>
       <td *ngIf="isStaff">{{ slot.studentId }}</td>
       <td>
