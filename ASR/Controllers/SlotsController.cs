@@ -30,6 +30,7 @@ namespace ASR.Controllers
 
             if (StartDate.Year == dateNotSet || EndDate.Year == dateNotSet)
             {
+                //no filter used.
                 var asrContext = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student);
                 return View(await asrContext.ToListAsync());
             }
@@ -58,11 +59,13 @@ namespace ASR.Controllers
                 return NotFound();
             }
 
+            //get the name of the staff memeber
             if (slot.StaffID != null)
             {
                 ViewData["StaffName"] = _context.AppUser.FirstOrDefault(x => x.Id == slot.StaffID).Name;
             }
 
+            //get the name of the student memeber
             if (slot.StudentID != null)
             {
                 ViewData["StudentName"] = _context.AppUser.FirstOrDefault(x => x.Id == slot.StudentID).Name;

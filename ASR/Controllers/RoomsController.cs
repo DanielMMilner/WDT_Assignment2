@@ -30,11 +30,6 @@ namespace ASR.Controllers
         {
             var RoomID = _context.Room.FirstOrDefault(x => x.RoomName == RoomName).RoomID;
 
-            if (RoomID == null)
-            {
-                return NotFound();
-            }
-
             var slot = _context.Slot.Where(x => x.RoomID == RoomID && x.StartTime.Date >= StartDate.Date && x.StartTime.Date <= EndDate.Date).ToList();
             if (slot == null)
             {

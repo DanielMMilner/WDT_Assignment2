@@ -129,6 +129,7 @@ namespace ASR.Areas.Identity.Pages.Account
                 }
                 catch
                 {
+                    //some social logins do not give names. e.g. twitter
                     Console.WriteLine("Could not get users name from external login provider");
                 }
 
@@ -139,6 +140,7 @@ namespace ASR.Areas.Identity.Pages.Account
                     var result = await _userManager.CreateAsync(user);
                     bool isStaff = Input.SchoolID.StartsWith('e');
 
+                    //assign correct roles
                     if (isStaff)
                     {
                         if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))

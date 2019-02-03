@@ -78,6 +78,7 @@ namespace ASR.Areas.Identity.Pages.Account
                 bool isStaff = false;
                 string regex;
 
+                //determine which regex to use. Staff or Student
                 if (Input.Email.StartsWith('e'))
                 {
                     isStaff = true;
@@ -93,6 +94,7 @@ namespace ASR.Areas.Identity.Pages.Account
 
                 if (m.Success)
                 {
+                    //assign the school id as the first section of the users email
                     Input.SchoolID = m.ToString();
                 }
                 else
@@ -106,6 +108,7 @@ namespace ASR.Areas.Identity.Pages.Account
                 {
                     var result = await _userManager.CreateAsync(user, Input.Password);
 
+                    //assign correct roles
                     if (isStaff)
                     {
                         if (user != null && !await _userManager.IsInRoleAsync(user, Constants.Staff))
