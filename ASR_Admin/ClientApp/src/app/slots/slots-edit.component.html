@@ -1,0 +1,33 @@
+<h1>Edit this slot</h1>
+
+<p *ngIf="!slot && !students"><em>Loading...</em></p>
+
+<div *ngIf="slot && students">
+  <div class="form-group">
+    <label for="roomName">Room Name</label>
+    <input type="text" class="form-control" id="roomName" value="{{ slot.roomName }}" readonly>
+  </div>
+  <div class="form-group">
+    <label for="startTime">Start Date</label>
+    <input type="text" class="form-control" id="startTime" value="{{ slot.startTime | date :  'd/M/yy, h:mm a'}}" readonly>
+  </div>
+  <div class="form-group">
+    <label for="staffID">Staff Id</label>
+    <input type="text" class="form-control" id="staffID" value="{{ slot.staffId }}" readonly>
+  </div>
+  <div class="form-group">
+    <label for="name">Booked Student</label>
+    <select class="form-control" [(ngModel)]='studentSelected'>
+      <option *ngFor="let u of students" value="{{u.schoolId}}">{{u.schoolId}} - {{u.name}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <div class="btn-group">
+      <button class="btn btn-default btn" (click)="cancelBooking()" [disabled]="!slot.studentId">Cancel Student Booking</button>
+      <button class="btn btn-default btn" (click)="updateBooking()" [disabled]="slot.studentId == studentSelected">Update Student Booking</button>
+    </div>
+  </div>
+</div>
+<div class="alert alert-danger" *ngIf="error">
+  <strong>Error!</strong> Unable to perform action
+</div>

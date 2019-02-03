@@ -1,0 +1,31 @@
+<h1>Slots</h1>
+<h2 *ngIf="user">{{user.schoolId}} - {{user.name}}</h2>
+
+<p *ngIf="!slots && user"><em>Loading...</em></p>
+
+<table class='table' *ngIf="slots && user">
+  <thead>
+    <tr>
+      <th>Room</th>
+      <th>Start Time</th>
+      <th>Staff ID</th>
+      <th *ngIf="isStaff">Booked by</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let slot of slots">
+      <td>{{ slot.roomName }}</td>
+      <td>{{ slot.startTime | date :  "d/M/yy, h:mm a"  }}</td>
+      <td>{{ slot.staffId }}</td>
+      <td *ngIf="isStaff">{{ slot.studentId }}</td>
+      <td>
+        <div class="btn-group">
+          <button type="button" *ngIf="isStaff" class="btn btn-default btn" (click)="editSlot(slot.slotId)"><i class="glyphicon glyphicon-pencil"></i></button>
+          <button type="button" *ngIf="isStaff" class="btn btn-default btn" (click)="deleteSlot(slot.slotId)"><i class="glyphicon glyphicon-trash"></i></button>
+          <button type="button" *ngIf="!isStaff" class="btn btn-default btn" (click)="cancelBooking(slot.slotId)"><i class="glyphicon glyphicon-remove"></i></button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
