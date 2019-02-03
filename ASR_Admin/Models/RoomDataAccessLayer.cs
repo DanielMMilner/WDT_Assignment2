@@ -37,6 +37,10 @@ namespace ASR_Admin.Models
 
         public void AddRoom(string roomName)
         {
+            if(db.Room.Any(x => x.RoomName == roomName))
+            {
+                throw new Exception("Room name already exists");
+            }
             db.Add(new Room { RoomName = roomName });
             db.SaveChanges();
         }

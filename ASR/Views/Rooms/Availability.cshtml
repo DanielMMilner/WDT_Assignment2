@@ -1,11 +1,11 @@
-﻿@model IEnumerable<ASR.Models.Slot>
+﻿@model IEnumerable<ASR.Models.Room>
 
 @{
     ViewData["Title"] = "Availability";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Availability</h2>
-<h4>This room has the following bookings from @ViewBag.StartDate to @ViewBag.EndDate:</h4>
+<h4>These rooms are avaliable on @ViewBag.Date</h4>
 <div class="row">
     <div class="col-lg-5">
         <div class="alert alert-info">
@@ -21,16 +21,7 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Room)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.StartTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Staff)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Student)
+                            Room Name
                         </th>
                         <th></th>
                     </tr>
@@ -42,16 +33,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Room.RoomName)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.StartTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Staff.SchoolID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Student.SchoolID)
+                                    @Html.DisplayFor(modelItem => item.RoomName)
                                 </td>
                             </tr>
                         }

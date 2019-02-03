@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ASR.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASR.Controllers
 {
@@ -26,20 +27,19 @@ namespace ASR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Availability(string RoomName, DateTime StartDate, DateTime EndDate)
+        public IActionResult Availability(DateTime date)
         {
-            var RoomID = _context.Room.FirstOrDefault(x => x.RoomName == RoomName).RoomID;
+            // Get all room ids used on the day
+            var roomIdsOnDate = _context.Slot.Where(x => x.StartTime.Date == date.Date).Select(x => x.RoomID).ToList();
 
-            var slot = _context.Slot.Where(x => x.RoomID == RoomID && x.StartTime.Date >= StartDate.Date && x.StartTime.Date <= EndDate.Date).ToList();
-            if (slot == null)
-            {
-                return NotFound();
-            }
+            var excludeRoomIds = roomIdsOnDate.GroupBy(x => x).Where(g => g.Count() >= 2).Select(x => x.Key);
 
-            ViewData["StartDate"] = String.Format("{0:dddd, MMMM d, yyyy}", StartDate);
-            ViewData["EndDate"] = String.Format("{0:dddd, MMMM d, yyyy}", EndDate);
+            //Return the rooms which do not have the max number of bookings.
+            var rooms = _context.Room.Where(x => !excludeRoomIds.Contains(x.RoomID));
 
-            return View(slot);
+            ViewData["Date"] = string.Format("{0:dddd, MMMM d, yyyy}", date);
+
+            return View(rooms);
         }
     }
 }
