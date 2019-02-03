@@ -103,10 +103,10 @@ namespace ASR.Controllers
             slot.RoomID = _context.Room.FirstOrDefault(x => x.RoomName == RoomName).RoomID;
 
             //set the slot ID to the correct primary keys.
-            slot.StaffID = FindPrimaryKeyFromSchoolID(slot, slot.StaffID);
+            slot.StaffID = FindPrimaryKeyFromSchoolID(slot.StaffID);
             if (slot.StudentID != null)
             {
-                slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
+                slot.StudentID = FindPrimaryKeyFromSchoolID(slot.StudentID);
             }
 
             if (!SlotCreationBusinessRules(slot))
@@ -202,11 +202,11 @@ namespace ASR.Controllers
             slot.RoomID = _context.Room.FirstOrDefault(x => x.RoomName == RoomName).RoomID;
 
             //set the slot ID to the correct primary keys
-            slot.StaffID = FindPrimaryKeyFromSchoolID(slot, slot.StaffID);
+            slot.StaffID = FindPrimaryKeyFromSchoolID(slot.StaffID);
 
             if (slot.StudentID != null)
             {
-                slot.StudentID = FindPrimaryKeyFromSchoolID(slot, slot.StudentID);
+                slot.StudentID = FindPrimaryKeyFromSchoolID(slot.StudentID);
             }
 
             if (ModelState.IsValid)
@@ -283,7 +283,7 @@ namespace ASR.Controllers
             return _context.Slot.Any(e => e.SlotID.ToString() == slotID);
         }
 
-        private string FindPrimaryKeyFromSchoolID(Slot slot, string schoolID)
+        private string FindPrimaryKeyFromSchoolID(string schoolID)
         {
             //Find the primary key of the row which contains the school ID
             var key = _context.AppUser.FirstOrDefault(x => x.SchoolID == schoolID);

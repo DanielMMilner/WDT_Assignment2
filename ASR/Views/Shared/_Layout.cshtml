@@ -39,6 +39,7 @@
                     }
                     @if (User.IsInRole("Student"))
                     {
+                        <li><a asp-area="" asp-controller="Staff" asp-action="Index">Staff Availability</a></li>
                         <li><a asp-area="" asp-controller="Booking" asp-action="Index">Bookings</a></li>
                     }
                 </ul>

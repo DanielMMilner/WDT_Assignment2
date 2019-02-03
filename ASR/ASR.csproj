@@ -27,6 +27,12 @@
     <Content Update="Views\Home\Sitemap.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Staff\Availability.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Staff\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Slots\Schedule.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
