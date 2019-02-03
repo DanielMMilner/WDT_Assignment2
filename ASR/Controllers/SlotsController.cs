@@ -31,12 +31,12 @@ namespace ASR.Controllers
             if (StartDate.Year == dateNotSet || EndDate.Year == dateNotSet)
             {
                 //no filter used.
-                var asrContext = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student);
+                var asrContext = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student).OrderBy(x => x.StartTime);
                 return View(await asrContext.ToListAsync());
             }
             else
             {
-                var Slots = _context.Slot.Where(x => x.StartTime.Date >= StartDate.Date && x.StartTime.Date <= EndDate.Date);
+                var Slots = _context.Slot.Where(x => x.StartTime.Date >= StartDate.Date && x.StartTime.Date <= EndDate.Date).OrderBy(x => x.StartTime);
                 return View(await Slots.ToListAsync());
             }
         }

@@ -38,9 +38,9 @@ namespace ASR
                 StartDate = sDate,
                 EndDate = eDate,
                 BookingsForDate = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student)
-                .Where(x => x.StartTime.Date >= sDate.Date && x.StartTime.Date <= eDate.Date),
+                .Where(x => x.StartTime.Date >= sDate.Date && x.StartTime.Date <= eDate.Date).OrderBy(x => x.StartTime),
                 MyBookings = _context.Slot.Include(s => s.Room).Include(s => s.Staff).Include(s => s.Student)
-                .Where(x => x.StudentID == _userManager.GetUserId(User))
+                .Where(x => x.StudentID == _userManager.GetUserId(User)).OrderBy(x => x.StartTime)
             };
             
             return View(model);
