@@ -58,6 +58,16 @@ namespace ASR.Controllers
                 return NotFound();
             }
 
+            if (slot.StaffID != null)
+            {
+                ViewData["StaffName"] = _context.AppUser.FirstOrDefault(x => x.Id == slot.StaffID).Name;
+            }
+
+            if (slot.StudentID != null)
+            {
+                ViewData["StudentName"] = _context.AppUser.FirstOrDefault(x => x.Id == slot.StudentID).Name;
+            }
+
             return View(slot);
         }
 
