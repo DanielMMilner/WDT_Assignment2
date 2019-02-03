@@ -78,7 +78,7 @@ namespace ASR.Controllers
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            var slots = _context.Slot.Where(x => x.StaffID == user.Id);
+            var slots = _context.Slot.Where(x => x.StaffID == user.Id).OrderBy(x => x.StartTime);
 
             return View(slots.ToList());
         }
