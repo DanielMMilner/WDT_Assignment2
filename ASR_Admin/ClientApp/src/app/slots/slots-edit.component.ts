@@ -47,7 +47,11 @@ export class SlotsEditComponent {
       }, error => this.error = true);
     
   }
-  
+
+
+  back() {
+    this.router.navigate(['/slots/' + this.editorID]);
+  }
 
 }
 

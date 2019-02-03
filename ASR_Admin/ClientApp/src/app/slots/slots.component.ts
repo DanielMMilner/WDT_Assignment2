@@ -43,6 +43,7 @@ export class SlotsComponent implements OnInit {
     // Cancel the booking
     this.http.delete<void>(this.baseUrl + 'api/booking/' + id)
       .subscribe(result => {
+        this.updateData();
       }, error => console.log(error));
   }
 
@@ -53,6 +54,9 @@ export class SlotsComponent implements OnInit {
       }, error => console.log(error));
   }
 
+  back() {
+    this.router.navigate(['/user-management']);
+  }
 }
 
 interface Slot {
